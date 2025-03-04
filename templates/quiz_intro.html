@@ -1,0 +1,13 @@
+<!-- HTML -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ quiz.title }}</title>
+  </head>
+  <body>
+    <h1>{{ quiz.title }}</h1>
+    <p>{{ quiz.description }}</p>
+    <a href="{{ url_for('quiz_question', quiz_id=quiz.id) }}">Start Quiz</a>
+  </body>
+</html>

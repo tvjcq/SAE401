@@ -1,0 +1,31 @@
+<!-- HTML -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Question</title>
+    <style>
+      .correct {
+        background-color: lightgreen;
+      }
+      .incorrect {
+        background-color: lightcoral;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Question: {{ question.text }}</h2>
+    <form method="post">
+      {% for choice in question.choices %} {% set cls = "" %} {% if feedback %}
+      {% if choice.id == feedback.correct_id %} {% set cls = "correct" %} {%
+      elif choice.id == feedback.selected and not feedback.correct %} {% set cls
+      = "incorrect" %} {% endif %} {% endif %}
+      <div class="{{ cls }}">
+        <input type="radio" name="choice" value="{{ choice.id }}" required />
+        {{ choice.text }}
+      </div>
+      {% endfor %}
+      <button type="submit">Validate and Next</button>
+    </form>
+  </body>
+</html>
