@@ -1,4 +1,4 @@
-// Dans app.js ou server.js (fichier principal de l'application)
+// Dans app.js (fichier principal de l'application)
 const express = require('express');
 const session = require('express-session');
 const mysql = require('mysql2/promise');
