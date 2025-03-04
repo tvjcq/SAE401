@@ -31,7 +31,7 @@ def init_user_session():
 
 @app.route('/')
 def index():
-    return render_template('acceuil.html')
+    return redirect(url_for('login'))
 
 @app.route('/profile')
 def profile():
@@ -125,7 +125,7 @@ def register():
             conn.close()
             return redirect(url_for('register'))
         
-        hashed_password = generate_password_hash(password, method='sha256')
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
         conn.execute('INSERT INTO profile (nom, prenom, email, password, statut) VALUES (?, ?, ?, ?, ?)',
                      (nom, prenom, email, hashed_password, 'Membre'))
         conn.commit()
