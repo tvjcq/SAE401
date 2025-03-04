@@ -1,0 +1,60 @@
+<!-- HTML -->
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Inscription</title>
+  </head>
+  <body>
+    <h1>Inscription</h1>
+    {% if error %}
+    <p style="color: red">{{ error }}</p>
+    {% endif %}
+    <form method="post" action="{{ url_for('register') }}" id="register-form">
+      <div id="step1">
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="email" required />
+        <br />
+        <label for="password">Mot de passe :</label>
+        <input type="password" id="password" name="password" required />
+        <br />
+        <label for="confirm">Confirmez le mot de passe :</label>
+        <input type="password" id="confirm" name="confirm" required />
+        <p id="confirmation" style="display: none">
+          Les mot de passe ne sont pas pareil !
+        </p>
+        <br />
+        <button type="button" onclick="nextStep()">Suivant</button>
+      </div>
+      <div id="step2" style="display: none">
+        <label for="nom">Nom :</label>
+        <input type="text" id="nom" name="nom" required />
+        <br />
+        <label for="prenom">Prénom :</label>
+        <input type="text" id="prenom" name="prenom" required />
+        <br />
+        <label for="statut">Statut :</label>
+        <select id="statut" name="statut">
+          <option value="étudiant">Étudiant</option>
+          <option value="prof">Professeur</option>
+          <!-- Ajoutez d'autres options si nécessaire -->
+        </select>
+        <br />
+        <button type="submit">S'inscrire</button>
+      </div>
+    </form>
+    <p>Déjà inscrit ? <a href="{{ url_for('login') }}">Connectez-vous</a></p>
+    <script>
+      function nextStep() {
+        var password = document.getElementById("password").value;
+        var confirm = document.getElementById("confirm").value;
+        if (password !== confirm) {
+          document.getElementById("confirmation").style.display = "block";
+          return;
+        }
+        document.getElementById("step1").style.display = "none";
+        document.getElementById("step2").style.display = "block";
+      }
+    </script>
+  </body>
+</html>
