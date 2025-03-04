@@ -5,9 +5,13 @@ from flask_login import (
     LoginManager, login_user, logout_user,
     login_required, UserMixin, current_user
 )
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = 'votre_cle_secrete'  # nécessaire pour utiliser les sessions
+app.secret_key = os.getenv('SECRET_KEY')
 
 # Configuration de la base de données avec SQLite
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
