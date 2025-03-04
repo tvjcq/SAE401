@@ -136,5 +136,24 @@ body.acceuil {
 }
 
 .nav-item a svg {
-stroke: white;
+  stroke: white;
+}
+
+.floor-button {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #FF4C5B; /* Couleur plus foncée */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.floor-button:hover {
+  background-color: #FF2A3A; /* Couleur encore plus foncée au survol */
+}
+
+.floor-button.active {
+  background-color: #FF1A1A; /* Couleur encore plus foncée pour l'étage actuel */
 }
