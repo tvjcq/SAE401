@@ -134,3 +134,7 @@ body.acceuil {
   width: 150px;
   height: auto;
 }
+
+.nav-item a svg {
+stroke: white;
+}
