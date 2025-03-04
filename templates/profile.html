@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profil Utilisateur</title>
-  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <!-- Inclure le fichier PHP -->
@@ -84,7 +84,7 @@
           </svg>
         </div>
         <div class="nav-item">
-          <a href="/templates/acceuil.html"> <img src="/static/src/images/logo_jaune.png" style="height: auto; width: 30px;" alt="Logo jaune"> </a>
+          <a href="{{ url_for('acceuil') }}"> <img src="{{ url_for('static', filename='src/images/logo_jaune.png') }}" style="height: auto; width: 30px;" alt="Logo jaune"> </a>
         </div>
         <div class="nav-item">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
