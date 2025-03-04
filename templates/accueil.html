@@ -6,9 +6,13 @@
   <title>Accueil</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="acceuil">
-  <div class="container acceuil">
-    <img src="{{ url_for('static', filename='src/images/logo_jaune.png') }}" alt="Logo jaune" class="logo">
+<body class="accueil">
+  <div class="container accueil">
+    <div class="logo-container">
+      <img src="{{ url_for('static', filename='src/images/logo_jaune.png') }}" alt="Logo jaune" class="logo">
+    </div>
+    <h2>Bienvenue sur Plant-It</h2>
+    <p>Découvrez les potagers de l'IUT et participez à leur entretien.</p>
   </div>
 
   <!-- Barre de navigation du bas -->
@@ -29,7 +33,7 @@
       </svg>
     </div>
     <div class="nav-item">
-      <a href="{{ url_for('index') }}"> <img src="{{ url_for('static', filename='src/images/logo_jaune.png') }}" style="height: auto; width: 30px;" alt="Logo jaune"> </a>
+      <a href="{{ url_for('accueil') }}"> <img src="{{ url_for('static', filename='src/images/logo_jaune.png') }}" style="height: auto; width: 30px;" alt="Logo jaune"> </a>
     </div>
     <div class="nav-item">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

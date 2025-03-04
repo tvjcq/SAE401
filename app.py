@@ -50,9 +50,9 @@ def profile():
     ]
     return render_template('profile.html', user=current_user, badges=badges)
 
-@app.route('/acceuil')
-def acceuil():
-    return render_template('acceuil.html')
+@app.route('/accueil')
+def accueil():
+    return render_template('accueil.html')
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -76,7 +76,7 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
             login_user(user)
-            return redirect(url_for('acceuil'))
+            return redirect(url_for('accueil'))
         else:
             flash('Email ou mot de passe incorrect.', 'error')
             return render_template('login.html', error="Identifiants invalides")
@@ -98,7 +98,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         login_user(new_user)
-        return redirect(url_for('acceuil'))
+        return redirect(url_for('accueil'))
     return render_template('register.html')
 
 @app.route('/logout')
