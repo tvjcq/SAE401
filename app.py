@@ -1,146 +1,123 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-import sqlite3
-import os
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Remplacez par une clé secrète sécurisée
+app.secret_key = os.getenv('SECRET_KEY', 'your_secret_key')  # Remplacez par une clé secrète sécurisée
 
-# Fonction pour obtenir une connexion à la base de données
-def get_db_connection():
-    conn = sqlite3.connect('baselocale.db')
-    conn.row_factory = sqlite3.Row
-    return conn
+# Configuration de la base de données avec SQLite
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
-# Initialiser les données utilisateur dans la session
-def init_user_session():
-    if 'user' not in session:
-        conn = get_db_connection()
-        user = conn.execute('SELECT * FROM profile WHERE id = 1').fetchone()
-        if user is None:
-            flash('Utilisateur non trouvé dans la base de données.', 'error')
-            return redirect(url_for('index'))
-        session['user'] = {
-            'photo_profil': 'static/src/images/profile_icon_default.png',
-            'nom': user['nom'],
-            'prenom': user['prenom'],
-            'email': user['email'],
-            'statut': user['statut']
-        }
-        conn.close()
+# Configuration de Flask-Login
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+
+# Modèle utilisateur
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(150), unique=True, nullable=False)
+    password = db.Column(db.String(150), nullable=False)
+    nom = db.Column(db.String(150), nullable=False)
+    prenom = db.Column(db.String(150), nullable=False)
+    statut = db.Column(db.String(150), nullable=False)
+
+# Création de la base de données si elle n'existe pas
+with app.app_context():
+    db.create_all()
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 @app.route('/')
+@login_required
 def index():
-    return redirect(url_for('login'))
+    return render_template('index.html', name=current_user.prenom)
 
 @app.route('/profile')
+@login_required
 def profile():
-    init_user_session()
-    if 'user' not in session:
-        return redirect(url_for('index'))
-    user = session['user']
     badges = [
         {'image_url': 'static/src/images/badge_graine_de_champion.png', 'nom': 'Badge 1'},
         {'image_url': 'static/src/images/badge_gardien_de_potager.png', 'nom': 'Badge 2'}
     ]
-    return render_template('profile.html', user=user, badges=badges)
+    return render_template('profile.html', user=current_user, badges=badges)
 
 @app.route('/acceuil')
 def acceuil():
     return render_template('acceuil.html')
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
 def edit_profile():
-    init_user_session()
-    if 'user' not in session:
-        return redirect(url_for('index'))
-    user = session['user']
     if request.method == 'POST':
-        nom = request.form['nom']
-        prenom = request.form['prenom']
-        email = request.form['email']
-        statut = request.form['statut']
+        current_user.nom = request.form['nom']
+        current_user.prenom = request.form['prenom']
+        current_user.email = request.form['email']
+        current_user.statut = request.form['statut']
         
-        conn = get_db_connection()
-        
-        # Vérifier si un utilisateur avec le même nom/prénom ou email existe déjà
-        existing_user = conn.execute('SELECT * FROM profile WHERE (nom = ? AND prenom = ?) OR email = ? AND id != 1',
-                                     (nom, prenom, email)).fetchone()
-        if existing_user:
-            flash('Un utilisateur avec le même nom/prénom ou email existe déjà.', 'error')
-            conn.close()
-            return redirect(url_for('edit_profile'))
-        
-        conn.execute('UPDATE profile SET nom = ?, prenom = ?, email = ?, statut = ? WHERE id = 1',
-                     (nom, prenom, email, statut))
-        conn.commit()
-        conn.close()
-        
-        user['nom'] = nom
-        user['prenom'] = prenom
-        user['email'] = email
-        user['statut'] = statut
-        session['user'] = user  # Mettre à jour les données utilisateur dans la session
+        db.session.commit()
+        flash('Profil mis à jour avec succès.', 'success')
         return redirect(url_for('profile'))
-    return render_template('edit_profile.html', user=user)
+    return render_template('edit_profile.html', user=current_user)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        
-        conn = get_db_connection()
-        user = conn.execute('SELECT * FROM profile WHERE email = ?', (email,)).fetchone()
-        conn.close()
-        
-        if user and check_password_hash(user['password'], password):
-            session['user'] = {
-                'photo_profil': 'static/src/images/profile_icon_default.png',
-                'nom': user['nom'],
-                'prenom': user['prenom'],
-                'email': user['email'],
-                'statut': user['statut']
-            }
-            return redirect(url_for('profile'))
+        email = request.form.get('email')
+        password = request.form.get('password')
+        user = User.query.filter_by(email=email).first()
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('acceuil'))
         else:
             flash('Email ou mot de passe incorrect.', 'error')
-    
+            return render_template('login.html', error="Identifiants invalides")
     return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        nom = request.form['nom']
-        prenom = request.form['prenom']
-        email = request.form['email']
-        password = request.form['password']
-        
-        conn = get_db_connection()
-        
-        # Vérifier si un utilisateur avec le même email existe déjà
-        existing_user = conn.execute('SELECT * FROM profile WHERE email = ?', (email,)).fetchone()
-        if existing_user:
+        email = request.form.get('email')
+        password = request.form.get('password')
+        nom = request.form.get('nom')
+        prenom = request.form.get('prenom')
+        statut = request.form.get('statut')
+        if User.query.filter_by(email=email).first():
             flash('Un utilisateur avec cet email existe déjà.', 'error')
-            conn.close()
-            return redirect(url_for('register'))
-        
+            return render_template('register.html', error="Cet email est déjà utilisé")
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-        conn.execute('INSERT INTO profile (nom, prenom, email, password, statut) VALUES (?, ?, ?, ?, ?)',
-                     (nom, prenom, email, hashed_password, 'Membre'))
-        conn.commit()
-        conn.close()
-        
-        flash('Inscription réussie. Vous pouvez maintenant vous connecter.', 'success')
-        return redirect(url_for('login'))
-    
+        new_user = User(email=email, password=hashed_password, nom=nom, prenom=prenom, statut=statut)
+        db.session.add(new_user)
+        db.session.commit()
+        login_user(new_user)
+        return redirect(url_for('acceuil'))
     return render_template('register.html')
 
 @app.route('/logout')
+@login_required
 def logout():
-    # Logique pour la déconnexion
-    session.pop('user', None)
-    return redirect(url_for('index'))
+    logout_user()
+    return redirect(url_for('login'))
+
+@app.route('/etage_0')
+def etage_0():
+    return render_template('etage_0.html')
+
+@app.route('/etage_1')
+def etage_1():
+    return render_template('etage_1.html')
+
+@app.route('/etage_2')
+def etage_2():
+    return render_template('etage_2.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

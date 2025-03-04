@@ -10,8 +10,6 @@
     <div class="container">
         <div class="leaf-icon">🌿</div>
         
-        <h2>Plan</h2>
-        
         <div class="profile-info">
             <h3>Découvrez les potagers de l'IUT</h3>
             <p>Cette page vous permet de localiser tous les potagers présents sur le site de l'IUT.</p>
@@ -22,9 +20,15 @@
             </div>
             
             <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
-                <button style="background-color: #FFE6E6; color: black; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold;">0</button>
-                <button style="background-color: #FFE6E6; color: black; border: none; padding: 10px 15px; border-radius: 8px;">1</button>
-                <button style="background-color: #FFE6E6; color: black; border: none; padding: 10px 15px; border-radius: 8px;">2</button>
+                <a href="{{ url_for('etage_0') }}">
+                    <button style="background-color: #FFE6E6; color: black; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold;">0</button>
+                </a>
+                <a href="{{ url_for('etage_1') }}">
+                    <button style="background-color: #FFE6E6; color: black; border: none; padding: 10px 15px; border-radius: 8px;">1</button>
+                </a>
+                <a href="{{ url_for('etage_2') }}">
+                    <button style="background-color: #FFE6E6; color: black; border: none; padding: 10px 15px; border-radius: 8px;">2</button>
+                </a>
             </div>
         </div>
 
