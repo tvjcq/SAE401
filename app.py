@@ -70,12 +70,13 @@ class SlotJardin(db.Model):
     votes = db.relationship('Vote', backref='slot_jardin', lazy=True)
 
 # Modèle Vote
+# language: python
 class Vote(db.Model):
     __tablename__ = 'votes'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     slot_jardin_id = db.Column(db.Integer, db.ForeignKey('slots_jardin.id'), nullable=False)
-    vote = db.Column(db.Integer, nullable=False)
+    legume_id = db.Column(db.Integer, db.ForeignKey('legumes.id'), nullable=False)
 
 # Modèle Quiz
 class Quiz(db.Model):
@@ -268,16 +269,23 @@ def legume_detail(legume_id):
 @login_required
 def vote_slot(slot_id):
     slot = SlotJardin.query.get_or_404(slot_id)
+    existing_vote = Vote.query.filter_by(user_id=current_user.id, slot_jardin_id=slot.id).first()
+    if existing_vote:
+        message = "Vous avez déjà voté pour ce slot. Vous ne pouvez pas le modifier."
+        return render_template('vote.html', slot=slot, message=message, already_voted=True)
+    
+    legumes = Legume.query.all()  # Récupérer tous les légumes
     if request.method == 'POST':
         try:
-            vote_value = int(request.form.get('vote'))
+            legume_vote = int(request.form.get('vote'))
         except (ValueError, TypeError):
-            vote_value = 0
-        new_vote = Vote(user_id=current_user.id, slot_jardin_id=slot.id, vote=vote_value)
+            legume_vote = 0
+        new_vote = Vote(user_id=current_user.id, slot_jardin_id=slot.id, legume_id=legume_vote)
         db.session.add(new_vote)
         db.session.commit()
         return redirect(url_for('jardin_detail', jardin_id=slot.jardin_id))
-    return render_template('vote.html', slot=slot)
+    
+    return render_template('vote.html', slot=slot, already_voted=False, legumes=legumes)
 
 @app.route('/etage_0')
 def etage_0():
