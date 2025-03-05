@@ -1,0 +1,20 @@
+<!-- HTML in templates/vote.html -->
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Voter pour le slot {{ slot.position }}</title>
+  </head>
+  <body>
+    <h1>Vote pour le slot à la position "{{ slot.position }}"</h1>
+    <p>Ce slot est actuellement vide.</p>
+    <form method="post">
+      <label for="vote">Votre vote (nombre) :</label>
+      <input type="number" name="vote" id="vote" required />
+      <button type="submit">Envoyer mon vote</button>
+    </form>
+    <a href="{{ url_for('jardin_detail', jardin_id=slot.jardin_id) }}"
+      >Retour au jardin</a
+    >
+  </body>
+</html>

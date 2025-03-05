@@ -32,6 +32,51 @@ class User(UserMixin, db.Model):
     first_name = db.Column(db.String(150), nullable=False)
     status = db.Column(db.String(150), nullable=False)
     
+    # Relation: one user peut posséder plusieurs jardins
+    jardins = db.relationship('Jardin', backref='proprietaire', lazy=True)
+    # Relation: one user a plusieurs votes
+    votes = db.relationship('Vote', backref='user', lazy=True)
+
+# Modèle Jardin
+class Jardin(db.Model):
+    __tablename__ = 'jardins'
+    id = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(150), nullable=False)
+    proprietaire_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    type = db.Column(db.String(50), nullable=False)  # 'interieur' ou 'exterieur'
+
+    # Relation avec les slots
+    slots = db.relationship('SlotJardin', backref='jardin', lazy=True)
+
+# Modèle Legume
+class Legume(db.Model):
+    __tablename__ = 'legumes'
+    id = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(150), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+
+    # Relation avec les slots
+    slots = db.relationship('SlotJardin', backref='legume', lazy=True)
+
+# Modèle SlotJardin
+class SlotJardin(db.Model):
+    __tablename__ = 'slots_jardin'
+    id = db.Column(db.Integer, primary_key=True)
+    jardin_id = db.Column(db.Integer, db.ForeignKey('jardins.id'), nullable=False)
+    legume_id = db.Column(db.Integer, db.ForeignKey('legumes.id'), nullable=False)
+    position = db.Column(db.String(50), nullable=False)
+
+    # Relation avec les votes
+    votes = db.relationship('Vote', backref='slot_jardin', lazy=True)
+
+# Modèle Vote
+class Vote(db.Model):
+    __tablename__ = 'votes'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    slot_jardin_id = db.Column(db.Integer, db.ForeignKey('slots_jardin.id'), nullable=False)
+    vote = db.Column(db.Integer, nullable=False)
+
 # Modèle Quiz
 class Quiz(db.Model):
     __tablename__ = 'quiz'
@@ -206,6 +251,33 @@ def quiz_result(quiz_id):
         title = "Peut mieux faire"
         description = "Continuez à pratiquer !"
     return render_template('quiz_result.html', score=score, total=total, title=title, description=description)
+
+@app.route('/jardin/<int:jardin_id>')
+@login_required
+def jardin_detail(jardin_id):
+    jardin = Jardin.query.get_or_404(jardin_id)
+    return render_template('jardin.html', jardin=jardin)
+
+@app.route('/legume/<int:legume_id>')
+@login_required
+def legume_detail(legume_id):
+    legume = Legume.query.get_or_404(legume_id)
+    return render_template('legume.html', legume=legume)
+
+@app.route('/vote/<int:slot_id>', methods=['GET', 'POST'])
+@login_required
+def vote_slot(slot_id):
+    slot = SlotJardin.query.get_or_404(slot_id)
+    if request.method == 'POST':
+        try:
+            vote_value = int(request.form.get('vote'))
+        except (ValueError, TypeError):
+            vote_value = 0
+        new_vote = Vote(user_id=current_user.id, slot_jardin_id=slot.id, vote=vote_value)
+        db.session.add(new_vote)
+        db.session.commit()
+        return redirect(url_for('jardin_detail', jardin_id=slot.jardin_id))
+    return render_template('vote.html', slot=slot)
 
 @app.route('/etage_0')
 def etage_0():
