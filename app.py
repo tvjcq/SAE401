@@ -128,19 +128,17 @@ def quiz_question(quiz_id):
     quiz = Quiz.query.get_or_404(quiz_id)
     curr_index = session.get('current_question', 0)
     questions = quiz.questions
-    # Si toutes les questions ont été traitées, aller au résultat
+    # If all questions are answered, redirect to result
     if curr_index >= len(questions):
         return redirect(url_for('quiz_result', quiz_id=quiz.id))
     question = questions[curr_index]
     
     if request.method == 'POST':
-        # Récupérer l'identifiant du choix soumis
         try:
             chosen_choice_id = int(request.form.get('choice'))
         except (ValueError, TypeError):
             chosen_choice_id = None
         
-        # Vérifier si le choix sélectionné est correct
         chosen_choice = next((c for c in question.choices if c.id == chosen_choice_id), None)
         correct = chosen_choice.is_right if chosen_choice else False
         if correct:
@@ -151,11 +149,16 @@ def quiz_question(quiz_id):
             'correct': correct,
             'correct_id': next((c.id for c in question.choices if c.is_right), None)
         }
-        # Passer à la question suivante pour la prochaine requête
-        session['current_question'] = curr_index + 1
+        # Do NOT increment session['current_question'] here.
         return render_template('quiz_question.html', quiz=quiz, question=question, feedback=feedback)
     
     return render_template('quiz_question.html', quiz=quiz, question=question, feedback=None)
+
+@app.route('/quiz/<int:quiz_id>/next')
+@login_required
+def quiz_next(quiz_id):
+    session['current_question'] = session.get('current_question', 0) + 1
+    return redirect(url_for('quiz_question', quiz_id=quiz_id))
 
 # Route pour afficher le résultat du quiz
 @app.route('/quiz/<int:quiz_id>/result')
@@ -170,7 +173,7 @@ def quiz_result(quiz_id):
         description = "Excellent, toutes les questions sont correctes."
     elif score >= total / 2:
         title = "Bon début"
-        description = "Bon travail, il y a encore de la place pour s'améliorer."
+        description = "Bon travail, il y a encore de quoi s'améliorer."
     else:
         title = "Peut mieux faire"
         description = "Continuez à pratiquer !"

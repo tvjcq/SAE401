@@ -16,16 +16,36 @@
   <body>
     <h2>Question: {{ question.text }}</h2>
     <form method="post">
-      {% for choice in question.choices %} {% set cls = "" %} {% if feedback %}
-      {% if choice.id == feedback.correct_id %} {% set cls = "correct" %} {%
-      elif choice.id == feedback.selected and not feedback.correct %} {% set cls
-      = "incorrect" %} {% endif %} {% endif %}
+      {% for choice in question.choices %} {% if feedback %} {% if choice.id ==
+      feedback.correct_id %} {% set cls = "correct" %} {% elif choice.id ==
+      feedback.selected and not feedback.correct %} {% set cls = "incorrect" %}
+      {% else %} {% set cls = "" %} {% endif %} {% else %} {% set cls = "" %} {%
+      endif %}
       <div class="{{ cls }}">
-        <input type="radio" name="choice" value="{{ choice.id }}" required />
+        <input
+          type="radio"
+          name="choice"
+          value="{{ choice.id }}"
+          required
+          {%
+          if
+          feedback
+          %}disabled{%
+          endif
+          %}
+        />
         {{ choice.text }}
       </div>
-      {% endfor %}
-      <button type="submit">Validate and Next</button>
+      {% endfor %} {% if not feedback %}
+      <button type="submit">Validate</button>
+      {% else %}
+      <button
+        type="button"
+        onclick="window.location.href=`{{ url_for('quiz_next', quiz_id=quiz.id) }}`"
+      >
+        Next
+      </button>
+      {% endif %}
     </form>
   </body>
 </html>
