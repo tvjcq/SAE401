@@ -11,12 +11,12 @@
     <h2>Modifier le Profil</h2>
     <form action="{{ url_for('edit_profile') }}" method="post">
       <div class="info-item">
-        <label for="nom" class="info-label">Nom :</label>
-        <input type="text" id="nom" name="nom" value="{{ user['nom'] }}" required>
+        <label for="last_name" class="info-label">Nom :</label>
+        <input type="text" id="last_name" name="last_name" value="{{ user['last_name'] }}" required>
       </div>
       <div class="info-item">
-        <label for="prenom" class="info-label">Prénom :</label>
-        <input type="text" id="prenom" name="prenom" value="{{ user['prenom'] }}" required>
+        <label for="first_name" class="info-label">Prénom :</label>
+        <input type="text" id="first_name" name="first_name" value="{{ user['first_name'] }}" required>
       </div>
       <div class="info-item">
         <label for="email" class="info-label">Adresse Mail :</label>

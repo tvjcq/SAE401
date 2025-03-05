@@ -8,13 +8,42 @@
 </head>
 <body class="accueil">
   <div class="container accueil">
-    <div class="logo-container">
-      <img src="{{ url_for('static', filename='src/images/logo_jaune.png') }}" alt="Logo jaune" class="logo">
+    <div class="debut">
+      <div class="logo-container">
+        <img src="{{ url_for('static', filename='src/images/logo_jaune.png') }}" alt="Logo jaune" class="logo">
+      </div>
+      <h2>Bienvenue sur Plant-It</h2>
+      <p>Découvrez les potagers de l'IUT et participez à leur entretien.</p>
     </div>
-    <h2>Bienvenue sur Plant-It</h2>
-    <p>Découvrez les potagers de l'IUT et participez à leur entretien.</p>
+    <div class="contenue">
+      <!-- Météo -->
+      <div class="weather-container">
+        <div class="weather-item card">
+          <p>Température: {{ weather.temperature_2m }} °C</p>
+        </div>
+        <div class="weather-item card">
+          <p>Humidité: {{ weather.relative_humidity_2m }} %</p>
+        </div>
+        <div class="weather-item card">
+          <p>Précipitations: {{ weather.precipitation }} mm</p>
+        </div>
+        <div class="weather-item card">
+          <p>Vitesse du vent: {{ weather.wind_speed_10m }} km/h</p>
+        </div>
+      </div>
+      
+      <!-- Quiz -->
+      <div class="quiz-container">
+        {% for quiz in quizzes %}
+        <a href="{{ url_for('quiz_intro', quiz_id=quiz.id) }}" class="quiz-item card">
+          <div class="card-title">{{ quiz.title }}</div>
+          <div class="card-description">{{ quiz.description }}</div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
   </div>
-
+  
   <!-- Barre de navigation du bas -->
   <div class="bottom-nav">
     <div class="nav-item">

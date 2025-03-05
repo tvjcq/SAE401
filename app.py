@@ -7,6 +7,7 @@ from flask_login import (
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 import os
+import requests
 
 load_dotenv()
 
@@ -71,8 +72,7 @@ def load_user(user_id):
 @app.route('/')
 @login_required
 def index():
-    quizzes = Quiz.query.all()
-    return render_template('index.html', name=current_user.first_name, quizzes=quizzes)
+    return render_template('index.html', name=current_user.first_name)
 
 @app.route('/profile')
 @login_required
@@ -83,9 +83,23 @@ def profile():
     ]
     return render_template('profile.html', user=current_user, badges=badges)
 
+@app.route('/weather_data')
+def weather_data():
+    url = "https://api.open-meteo.com/v1/forecast?latitude=43.3412&longitude=3.214&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m&forecast_days=1"
+    response = requests.get(url)
+    weather_data = response.json()
+    current_weather = weather_data['current']
+    return current_weather
+
 @app.route('/accueil')
 def accueil():
-    return render_template('accueil.html')
+    quizzes = Quiz.query.all()
+    url = "https://api.open-meteo.com/v1/forecast?latitude=43.3412&longitude=3.214&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m&forecast_days=1"
+    response = requests.get(url)
+    weather_data = response.json()
+    current_weather = weather_data['current']
+    return render_template('accueil.html', weather=current_weather, quizzes=quizzes)
+
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
