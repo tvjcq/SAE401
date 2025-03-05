@@ -258,6 +258,7 @@ body.accueil {
 }
 
 .debut {
+  width: 350px;
   align-items: center;
   background-color: #1D7373;
   display: flex;
