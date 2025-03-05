@@ -91,10 +91,10 @@ def accueil():
 @login_required
 def edit_profile():
     if request.method == 'POST':
-        current_user.nom = request.form['nom']
-        current_user.prenom = request.form['prenom']
+        current_user.last_name = request.form['last_name']
+        current_user.first_name = request.form['first_name']
         current_user.email = request.form['email']
-        current_user.statut = request.form['statut']
+        current_user.status = request.form['status']
         
         db.session.commit()
         return render_template('profile.html', user=current_user, update_message="Profil mis à jour avec succès")
