@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan des Potagers - Étage 2</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="leaf-icon">🌿</div>
+        
+        <div class="profile-info">
+            <h3>Découvrez les potagers de l'IUT - Étage 2</h3>
+            <p>Cette page vous permet de localiser tous les potagers présents sur le site de l'IUT à l'étage 2.</p>
+            <p>Chaque potager est représenté sur le plan interactif, et vous pouvez cliquer dessus pour accéder à des informations détaillées !</p>
+            
+            <div>
+                <img src="{{ url_for('static', filename='src/images/plan_2.png') }}" alt="Plan des Potagers Étage 2" style="width: 100%; max-width: 300px; margin: 20px 0;">
+            </div>
+            
+            <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
+                <a href="{{ url_for('etage_0') }}">
+                    <button class="floor-button">0</button>
+                </a>
+                <a href="{{ url_for('etage_1') }}">
+                    <button class="floor-button">1</button>
+                </a>
+                <a href="{{ url_for('etage_2') }}">
+                    <button class="floor-button active">2</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="nav-item">
+                <a href="{{ url_for('etage_0') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+                    <path d="M2 12h20"></path>
+                    <path d="M12 2v20"></path>
+                </svg>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('accueil') }}"> <img src="{{ url_for('static', filename='src/images/logo_jaune.png') }}" style="height: auto; width: 30px;" alt="Logo jaune"> </a>
+            </div>
+            <div class="nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+            </div>
+            <div class="nav-item">
+                <a href="{{ url_for('profile') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
