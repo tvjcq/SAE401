@@ -97,8 +97,7 @@ def edit_profile():
         current_user.statut = request.form['statut']
         
         db.session.commit()
-        flash('Profil mis à jour avec succès.', 'success')
-        return redirect(url_for('profile'))
+        return render_template('profile.html', user=current_user, update_message="Profil mis à jour avec succès")
     return render_template('edit_profile.html', user=current_user)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -109,9 +108,8 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
             login_user(user)
-            return redirect(url_for('accueil'))
+            return redirect(url_for('index'))
         else:
-            flash('Email ou mot de passe incorrect.', 'error')
             return render_template('login.html', error="Identifiants invalides")
     return render_template('login.html')
 
