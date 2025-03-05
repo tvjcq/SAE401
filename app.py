@@ -1,6 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
+from flask_login import (
+    LoginManager, login_user, logout_user,
+    login_required, UserMixin, current_user
+)
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 import os
@@ -8,7 +12,8 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY', 'your_secret_key')  # Remplacez par une clé secrète sécurisée
+
+app.secret_key = os.getenv('SECRET_KEY')
 
 # Configuration de la base de données avec SQLite
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
@@ -91,7 +96,6 @@ def register():
         prenom = request.form.get('prenom')
         statut = request.form.get('statut')
         if User.query.filter_by(email=email).first():
-            flash('Un utilisateur avec cet email existe déjà.', 'error')
             return render_template('register.html', error="Cet email est déjà utilisé")
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
         new_user = User(email=email, password=hashed_password, nom=nom, prenom=prenom, statut=statut)
@@ -99,6 +103,7 @@ def register():
         db.session.commit()
         login_user(new_user)
         return redirect(url_for('accueil'))
+
     return render_template('register.html')
 
 @app.route('/logout')
