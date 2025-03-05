@@ -24,9 +24,10 @@
       </div>
       <div class="info-item">
         <label for="statut" class="info-label">Statut :</label>
-        <select id="statut" name="statut">
-          <option value="étudiant">Étudiant</option>
-          <option value="prof">Professeur</option>
+        <select id="status" name="status" required>
+          <option value="" disabled selected>Choisir un statut</option>
+          <option value="Étudiant">Étudiant</option>
+          <option value="Professeur">Professeur</option>
         </select>
       </div>
       <button type="submit" class="edit-button">Enregistrer les modifications</button>

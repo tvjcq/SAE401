@@ -9,5 +9,16 @@
     <h1>Bienvenue, {{ name }} !</h1>
     <p>Vous êtes connecté.</p>
     <a href="{{ url_for('logout') }}">Se déconnecter</a>
+
+    <h2>Quizzes</h2>
+    <ul>
+      {% for quiz in quizzes %}
+      <li>
+        <a href="{{ url_for('quiz_intro', quiz_id=quiz.id) }}"
+          >{{ quiz.title }}</a
+        >
+      </li>
+      {% endfor %}
+    </ul>
   </body>
 </html>

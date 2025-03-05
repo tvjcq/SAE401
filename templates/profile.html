@@ -1,104 +1,174 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profil Utilisateur</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-  <div class="container">
-    <!-- Icône feuille -->
-    <div class="leaf-icon">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M2 12.5C2 12.5 5 9 12 9s10 3.5 10 3.5"></path>
-        <path d="M12 15l-2-2 2-2 2 2-2 2z"></path>
-      </svg>
-    </div>
-    
-    <!-- Informations de profil -->
-    <div class="profile-info">
-      <div class="avatar">
-        <img src="{{ user['photo_profil'] }}" alt="Photo de profil">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil Utilisateur</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Icône feuille -->
+      <div class="leaf-icon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M2 12.5C2 12.5 5 9 12 9s10 3.5 10 3.5"></path>
+          <path d="M12 15l-2-2 2-2 2 2-2 2z"></path>
+        </svg>
       </div>
-      
-      <div class="info-item">
-        <div class="info-label">Nom :</div>
-        <div>{{ user['nom'] }}</div>
+
+      <!-- Informations de profil -->
+      <div class="profile-info">
+        <div class="avatar">
+          <img src="{{ user['photo_profil'] }}" alt="Photo de profil" />
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">Nom :</div>
+          <div>{{ user['last_name'] }}</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">Prénom :</div>
+          <div>{{ user['first_name'] }}</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">Adresse Mail :</div>
+          <div>{{ user['email'] }}</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">Statut :</div>
+          <div>{{ user['status'] }}</div>
+        </div>
       </div>
-      
-      <div class="info-item">
-        <div class="info-label">Prénom :</div>
-        <div>{{ user['prenom'] }}</div>
-      </div>
-      
-      <div class="info-item">
-        <div class="info-label">Adresse Mail :</div>
-        <div>{{ user['email'] }}</div>
-      </div>
-      
-      <div class="info-item">
-        <div class="info-label">Statut :</div>
-        <div>{{ user['statut'] }}</div>
-      </div>
-    </div>
-    
-    <!-- Section badges -->
-    <div class="badges-section">
-      <div class="badges-title">Badges :</div>
-      <div class="badges-container">
-        {% if badges %}
-          {% for badge in badges %}
-            <img class="badge" src="{{ badge['image_url'] }}" alt="{{ badge['nom'] }}">
-          {% endfor %}
-        {% else %}
+
+      <!-- Section badges -->
+      <div class="badges-section">
+        <div class="badges-title">Badges :</div>
+        <div class="badges-container">
+          {% if badges %} {% for badge in badges %}
+          <img
+            class="badge"
+            src="{{ badge['image_url'] }}"
+            alt="{{ badge['nom'] }}"
+          />
+          {% endfor %} {% else %}
           <p>Aucun badge obtenu pour l'instant.</p>
-        {% endif %}
+          {% endif %}
+        </div>
       </div>
-    </div>
-    
-    <!-- Bouton modifier -->
-    <button class="edit-button" onclick="window.location.href='{{ url_for('edit_profile') }}'">Modifier mes informations</button>
-    
-    <!-- Lien déconnexion -->
-    <div class="logout">
-      <a href="{{ url_for('logout') }}">Se déconnecter</a>
-    </div>
-    
-    <!-- Barre de navigation du bas -->
-    <div class="bottom-nav">
-      <div class="nav-item">
-        <a href="{{ url_for('etage_0') }}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+
+      <!-- Bouton modifier -->
+      <button
+        class="edit-button"
+        onclick="window.location.href=`{{ url_for('edit_profile') }}`"
+      >
+        Modifier mes informations
+      </button>
+
+      <!-- Lien déconnexion -->
+      <div class="logout">
+        <a href="{{ url_for('logout') }}">Se déconnecter</a>
+      </div>
+
+      <!-- Barre de navigation du bas -->
+      <div class="bottom-nav">
+        <div class="nav-item">
+          <a href="{{ url_for('etage_0') }}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path
+                d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+              ></path>
+            </svg>
+          </a>
+        </div>
+        <div class="nav-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+            <path d="M2 12h20"></path>
+            <path d="M12 2v20"></path>
           </svg>
-        </a>
-      </div>
-      <div class="nav-item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="5"></rect>
-          <path d="M2 12h20"></path>
-          <path d="M12 2v20"></path>
-        </svg>
-      </div>
-      <div class="nav-item">
-        <a href="{{ url_for('accueil') }}"> <img src="{{ url_for('static', filename='src/images/logo_jaune.png') }}" style="height: auto; width: 30px;" alt="Logo jaune"> </a>
-      </div>
-      <div class="nav-item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-        </svg>
-      </div>
-      <div class="nav-item">
-        <a href="{{ url_for('profile') }}"> 
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
+        </div>
+        <div class="nav-item">
+          <a href="{{ url_for('accueil') }}">
+            <img
+              src="{{ url_for('static', filename='src/images/logo_jaune.png') }}"
+              style="height: auto; width: 30px"
+              alt="Logo jaune"
+            />
+          </a>
+        </div>
+        <div class="nav-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+            ></path>
           </svg>
-        </a>
+        </div>
+        <div class="nav-item">
+          <a href="{{ url_for('profile') }}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>
