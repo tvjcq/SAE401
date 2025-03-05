@@ -4,46 +4,58 @@
   <head>
     <meta charset="UTF-8" />
     <title>Inscription</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
-  <body>
-    <h1>Inscription</h1>
-    {% if error %}
-    <p style="color: red">{{ error }}</p>
-    {% endif %}
-    <form method="post" action="{{ url_for('register') }}" id="register-form">
-      <div id="step1">
-        <label for="email">Email :</label>
-        <input type="email" id="email" name="email" required />
-        <br />
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="password" required />
-        <br />
-        <label for="confirm">Confirmez le mot de passe :</label>
-        <input type="password" id="confirm" name="confirm" required />
-        <p id="confirmation" style="display: none">
-          Les mot de passe ne sont pas pareil !
-        </p>
-        <br />
-        <button type="button" onclick="nextStep()">Suivant</button>
+  <body class="acceuil">
+      <div class="debut">
+        <h1>Inscription</h1>
+        {% if error %}
+        <p style="color: red">{{ error }}</p>
+        {% endif %}
+        <form method="post" action="{{ url_for('register') }}" id="register-form">
+          <div id="step1">
+            <div class="info-item">
+              <label for="email" class="info-label">Email :</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="info-item">
+              <label for="password" class="info-label">Mot de passe :</label>
+              <input type="password" id="password" name="password" required />
+            </div>
+            <div class="info-item">
+              <label for="confirm" class="info-label">Confirmez le mot de passe :</label>
+              <input type="password" id="confirm" name="confirm" required />
+            </div>
+            <p id="confirmation" style="display: none">
+              Les mot de passe ne sont pas pareil !
+            </p>
+            <br />
+            <button type="button" class="edit-button" onclick="nextStep()">Suivant</button>
+          </div>
+          <div id="step2" style="display: none">
+            <div class="info-item">
+              <label for="last_name" class="info-label">Nom :</label>
+              <input type="text" id="last_name" name="last_name" required />
+            </div>
+            <div class="info-item">
+              <label for="first_name" class="info-label">Prénom :</label>
+              <input type="text" id="first_name" name="first_name" required />
+            </div>
+            <div class="info-item">
+              <label for="status" class="info-label">Statut :</label>
+              <select id="status" name="status">
+                <option value="étudiant">Étudiant</option>
+                <option value="prof">Professeur</option>
+                <!-- Ajoutez d'autres options si nécessaire -->
+              </select>
+            </div>
+            <button type="submit" class="edit-button">S'inscrire</button>
+          </div>
+        </form>
+        <div class="logout">
+          <p>Déjà inscrit ? <a href="{{ url_for('login') }}">Connectez-vous</a></p>
+        </div>
       </div>
-      <div id="step2" style="display: none">
-        <label for="last_name">Nom :</label>
-        <input type="text" id="last_name" name="last_name" required />
-        <br />
-        <label for="first_name">Prénom :</label>
-        <input type="text" id="first_name" name="first_name" required />
-        <br />
-        <label for="status">Statut :</label>
-        <select id="status" name="status">
-          <option value="étudiant">Étudiant</option>
-          <option value="prof">Professeur</option>
-          <!-- Ajoutez d'autres options si nécessaire -->
-        </select>
-        <br />
-        <button type="submit">S'inscrire</button>
-      </div>
-    </form>
-    <p>Déjà inscrit ? <a href="{{ url_for('login') }}">Connectez-vous</a></p>
     <script>
       function nextStep() {
         var password = document.getElementById("password").value;
