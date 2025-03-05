@@ -24,7 +24,10 @@
       </div>
       <div class="info-item">
         <label for="statut" class="info-label">Statut :</label>
-        <input type="text" id="statut" name="statut" value="{{ user['statut'] }}" required>
+        <select id="statut" name="statut">
+          <option value="étudiant">Étudiant</option>
+          <option value="prof">Professeur</option>
+        </select>
       </div>
       <button type="submit" class="edit-button">Enregistrer les modifications</button>
     </form>
