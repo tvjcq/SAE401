@@ -63,7 +63,7 @@ class SlotJardin(db.Model):
     __tablename__ = 'slots_jardin'
     id = db.Column(db.Integer, primary_key=True)
     jardin_id = db.Column(db.Integer, db.ForeignKey('jardins.id'), nullable=False)
-    legume_id = db.Column(db.Integer, db.ForeignKey('legumes.id'), nullable=False)
+    legume_id = db.Column(db.Integer, db.ForeignKey('legumes.id'), nullable=True)  # autorise None pour un slot vide
     position = db.Column(db.String(50), nullable=False)
 
     # Relation avec les votes

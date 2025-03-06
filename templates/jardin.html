@@ -10,7 +10,7 @@
     <ul>
       {% for slot in jardin.slots %}
       <li>
-        Slot position : {{ slot.position }} - {% if slot.legume_id == 1 %}
+        Slot position : {{ slot.position }} - {% if slot.legume_id is none %}
         <a href="{{ url_for('vote_slot', slot_id=slot.id) }}"
           >Voter pour ce slot</a
         >

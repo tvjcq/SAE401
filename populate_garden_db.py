@@ -16,12 +16,7 @@ with app.app_context():
         db.session.add(owner)
         db.session.commit()
 
-    # Create a default "empty" legume for slots without an assigned vegetable.
-    empty_legume = Legume.query.filter_by(nom="Slot vide").first()
-    if not empty_legume:
-        empty_legume = Legume(nom="Slot vide", description="Ce slot est vide, votez pour y ajouter un légume!")
-        db.session.add(empty_legume)
-        db.session.commit()
+    
     
     # Data for gardens with associated slots and vegetables.
     gardens_data = [
@@ -49,7 +44,7 @@ with app.app_context():
                 },
                 {
                     "position": "B2",
-                    "legume": None  # Slot sans légume, on utilisera le legume par défaut "Slot vide"
+                    "legume": None  
                 },
             ]
         }
@@ -65,10 +60,10 @@ with app.app_context():
             if legume_data:
                 legume = Legume(nom=legume_data["nom"], description=legume_data["description"])
                 db.session.add(legume)
-                db.session.flush()  # Pour obtenir l'id du légume
+                db.session.flush()  # pour obtenir l'id
             else:
-                legume = empty_legume
-            slot = SlotJardin(jardin_id=jardin.id, legume_id=legume.id, position=slot_info["position"])
+                legume = None  # slot vide
+            slot = SlotJardin(jardin_id=jardin.id, legume_id=legume.id if legume else None, position=slot_info["position"])
             db.session.add(slot)
     
     db.session.commit()
