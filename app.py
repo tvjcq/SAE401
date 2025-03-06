@@ -5,6 +5,7 @@ from flask_login import (
     login_required, UserMixin, current_user
 )
 from werkzeug.security import generate_password_hash, check_password_hash
+import requests
 from dotenv import load_dotenv
 import os
 
@@ -286,6 +287,47 @@ def vote_slot(slot_id):
         return redirect(url_for('jardin_detail', jardin_id=slot.jardin_id))
     
     return render_template('vote.html', slot=slot, already_voted=False, legumes=legumes)
+
+# language: python
+@app.route('/plantid', methods=['GET', 'POST'])
+def plant_id():
+    if request.method == 'POST':
+        if 'photo' not in request.files:
+            return render_template('plantid.html', error="Aucune image détectée.")
+        photo = request.files['photo']
+        if photo.filename == '':
+            return render_template('plantid.html', error="Aucune image sélectionnée.")
+        
+        api_url = "https://my-api.plantnet.org/v2/identify/all"
+        params = {
+            "include-related-images": "false",
+            "no-reject": "false",
+            "nb-results": "1",
+            "lang": "fr",
+            "api-key": os.getenv('PLANTNET_API_KEY')  # Ajoutez cette variable dans votre .env
+        }
+        files = {
+            'images': (photo.filename, photo.stream, photo.mimetype)
+        }
+        headers = {
+            'accept': 'application/json'
+        }
+        
+        response = requests.post(api_url, params=params, files=files, headers=headers)
+        if response.status_code == 200:
+            data = response.json()
+            results = data.get('results', [])
+            if results:
+                species = results[0].get('species', {})
+                common_names = species.get('commonNames', [])
+                # Récupère le premier common name s'il existe
+                plant_common_name = common_names[0] if common_names else 'Inconnu'
+            else:
+                plant_common_name = 'Inconnu'
+            return render_template('plantid.html', plant_name=plant_common_name)
+        else:
+            return render_template('plantid.html', error="Erreur lors de l'identification (code {}).".format(response.status_code))
+    return render_template('plantid.html')
 
 @app.route('/etage_0')
 def etage_0():
