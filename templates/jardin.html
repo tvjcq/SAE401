@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ jardin.nom }}</title>
+  </head>
+  <body>
+    <h1>Jardin : {{ jardin.nom }}</h1>
+    <p>Type : {{ jardin.type }}</p>
+    <ul>
+      {% for slot in jardin.slots %}
+      <li>
+        Slot position : {{ slot.position }} - {% if slot.legume_id is none %}
+        <a href="{{ url_for('vote_slot', slot_id=slot.id) }}"
+          >Voter pour ce slot</a
+        >
+        {% else %}
+        <a href="{{ url_for('legume_detail', legume_id=slot.legume.id) }}"
+          >Voir le légume : {{ slot.legume.nom }}</a
+        >
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    <a href="{{ url_for('index') }}">Retour accueil</a>
+  </body>
+</html>
