@@ -1,0 +1,31 @@
+<!-- language: html -->
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Modifier les légumes du jardin</title>
+  </head>
+  <body>
+    <h1>Modifier les légumes pour le jardin : {{ jardin.nom }}</h1>
+    <form method="post">
+      {% for slot in jardin.slots %}
+      <div>
+        <h3>Slot à la position : {{ slot.position }}</h3>
+        <p>Légume actuel : {% if slot.legume %}{{ slot.legume.nom }}{% else %}Aucun{% endif %}</p>
+        <label for="slot_{{ slot.id }}">Modifier le légume :</label>
+        <select id="slot_{{ slot.id }}" name="slot_{{ slot.id }}">
+          <option value="">Aucun légume</option>
+          {% for legume in legumes %}
+          <option value="{{ legume.id }}"
+            {% if slot.legume and slot.legume.id == legume.id %}selected{% endif %}>
+            {{ legume.nom }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      {% endfor %}
+      <button type="submit">Enregistrer les modifications</button>
+    </form>
+    <a href="{{ url_for('jardin_detail', jardin_id=jardin.id) }}">Retour au jardin</a>
+  </body>
+</html>

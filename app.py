@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, abort
+from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import (
     LoginManager, login_user, logout_user,
@@ -33,6 +34,7 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String(150), nullable=False)
     first_name = db.Column(db.String(150), nullable=False)
     status = db.Column(db.String(150), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False, nullable=False)
     
     # Relation: one user peut posséder plusieurs jardins
     jardins = db.relationship('Jardin', backref='proprietaire', lazy=True)
@@ -111,6 +113,14 @@ class Choice(db.Model):
 # Création de la base de données si elle n'existe pas
 with app.app_context():
     db.create_all()
+    
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_admin:
+            abort(403)
+        return f(*args, **kwargs)
+    return decorated_function
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -359,5 +369,27 @@ def etage_1():
 def etage_2():
     return render_template('etage_2.html')
 
+@app.route('/admin/jardin/<int:jardin_id>/edit', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def admin_edit_jardin(jardin_id):
+    jardin = Jardin.query.get_or_404(jardin_id)
+    # Pour alimenter le menu déroulant dans le template.
+    legumes = Legume.query.all()
+    if request.method == 'POST':
+        for slot in jardin.slots:
+            # Récupère l'id du légume choisi dans le formulaire (chaîne vide si aucun légume)
+            legume_id = request.form.get(f'slot_{slot.id}')
+            if legume_id:
+                try:
+                    slot.legume_id = int(legume_id)
+                except ValueError:
+                    slot.legume_id = None
+            else:
+                slot.legume_id = None
+        db.session.commit()
+        return redirect(url_for('jardin_detail', jardin_id=jardin.id))
+    
+    return render_template('admin_edit_jardin.html', jardin=jardin, legumes=legumes)
 if __name__ == '__main__':
     app.run(debug=True)
