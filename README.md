@@ -37,7 +37,7 @@ Application construite avec FLask avec une base de donnée SQLite.
      cp .env.example .env
      ```
 
-   - Ouvrez le fichier `.env` et modifiez la valeur de `SECRET_KEY` pour qu'elle soit suffisamment complexe
+   - Ouvrez le fichier `.env` et modifiez la valeur de `SECRET_KEY` pour qu'elle soit suffisamment complexe. Modifier la valeur `PLANTNET_API_KEY` avec votre clé API de Pl@ntNet API sur [ce lien.](https://my.plantnet.org)
 
 5. **Configurer les variables d'environnement**
 
