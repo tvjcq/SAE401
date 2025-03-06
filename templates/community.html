@@ -1,0 +1,52 @@
+<!-- language: html -->
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Communauté</title>
+  </head>
+  <body>
+    <h1>Fil Communautaire</h1>
+    <div class="chat-container">
+      {% for msg in messages %}
+      <div
+        class="chat-message {% if msg.author == 'Admin' %}admin{% else %}user{% endif %}"
+      >
+        <strong>{{ msg.author }}:</strong> {{ msg.content }} {% if msg.type !=
+        'message' %}
+        <em>[{{ msg.type }}]</em>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if current_user.is_admin %}
+    <form method="post">
+      <div class="chat-input">
+        <textarea name="message" placeholder="Écrire un message..."></textarea>
+        <button type="submit">Envoyer</button>
+        <button type="button" class="plus-button" onclick="toggleOptions()">
+          +
+        </button>
+      </div>
+      <div id="extra-options" style="display: none; margin-top: 10px">
+        <button type="button" onclick="createPoll()">Créer un sondage</button>
+        <button type="button" onclick="createQuiz()">Créer un quiz</button>
+      </div>
+    </form>
+    {% endif %}
+
+    <script>
+      function toggleOptions() {
+        var extra = document.getElementById("extra-options");
+        extra.style.display = extra.style.display === "none" ? "block" : "none";
+      }
+      function createPoll() {
+        alert("Fonction de création de sondage à implémenter.");
+      }
+      function createQuiz() {
+        alert("Fonction de création de quiz à implémenter.");
+      }
+    </script>
+  </body>
+</html>

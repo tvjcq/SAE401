@@ -357,6 +357,27 @@ def plant_id():
             return render_template('plantid.html', error="Erreur lors de l'identification (code {}).".format(response.status_code))
     return render_template('plantid.html')
 
+@app.route('/community', methods=['GET', 'POST'])
+@login_required
+def community():
+    # Pour l'exemple, on stocke les messages dans la session.
+    if 'community_messages' not in session:
+        session['community_messages'] = []
+    if request.method == 'POST' and current_user.is_admin:
+        new_message = request.form.get('message')
+        # Le type de message peut être "message", "poll" ou "quiz" selon le bouton utilisé.
+        message_type = request.form.get('type', 'message')
+        if new_message:
+            session['community_messages'].append({
+                'author': current_user.first_name,
+                'content': new_message,
+                'type': message_type
+            })
+            session.modified = True
+        return redirect(url_for('community'))
+    messages = session.get('community_messages', [])
+    return render_template('community.html', messages=messages)
+
 @app.route('/etage_0')
 def etage_0():
     return render_template('etage_0.html')
