@@ -111,7 +111,7 @@ def edit_profile():
         current_user.status = request.form['status']
         
         db.session.commit()
-        return render_template('profile.html', user=current_user, update_message="Profil mis à jour avec succès")
+        return redirect(url_for('profile'))
     return render_template('edit_profile.html', user=current_user)
 
 @app.route('/login', methods=['GET', 'POST'])
