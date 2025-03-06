@@ -302,7 +302,6 @@ def vote_slot(slot_id):
     
     return render_template('vote.html', slot=slot, already_voted=False, legumes=legumes)
 
-# language: python
 @app.route('/plantid', methods=['GET', 'POST'])
 def plant_id():
     if request.method == 'POST':
@@ -312,13 +311,19 @@ def plant_id():
         if photo.filename == '':
             return render_template('plantid.html', error="Aucune image sélectionnée.")
         
+        # Vérifier que l'extension est autorisée
+        allowed_extensions = {'jpeg', 'jpg', 'png'}
+        filename = photo.filename.lower()
+        if not ('.' in filename and filename.rsplit('.', 1)[1] in allowed_extensions):
+            return render_template('plantid.html', error="Format d'image non supporté. Veuillez utiliser un format jpeg, jpg ou png.")
+        
         api_url = "https://my-api.plantnet.org/v2/identify/all"
         params = {
             "include-related-images": "false",
             "no-reject": "false",
             "nb-results": "1",
             "lang": "fr",
-            "api-key": os.getenv('PLANTNET_API_KEY')  # Ajoutez cette variable dans votre .env
+            "api-key": os.getenv('PLANTNET_API_KEY')
         }
         files = {
             'images': (photo.filename, photo.stream, photo.mimetype)
@@ -334,7 +339,6 @@ def plant_id():
             if results:
                 species = results[0].get('species', {})
                 common_names = species.get('commonNames', [])
-                # Récupère le premier common name s'il existe
                 plant_common_name = common_names[0] if common_names else 'Inconnu'
             else:
                 plant_common_name = 'Inconnu'
