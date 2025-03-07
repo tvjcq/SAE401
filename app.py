@@ -477,25 +477,6 @@ def create_quiz():
             return redirect(url_for('community'))
     return render_template('create_quiz.html')
 
-@app.route('/community_quiz/<int:quiz_id>', methods=['GET', 'POST'])
-@login_required
-def community_quiz(quiz_id):
-    quiz = Quiz.query.get_or_404(quiz_id)
-    # Assume we only show the first question inline
-    question = quiz.questions[0] if quiz.questions else None
-    if not question:
-        return redirect(url_for('community'))
-    
-    if request.method == 'POST':
-        try:
-            chosen_choice_id = int(request.form.get('choice'))
-        except (ValueError, TypeError):
-            chosen_choice_id = None
-        chosen_choice = next((c for c in question.choices if c.id == chosen_choice_id), None)
-        result = "Correct !" if chosen_choice and chosen_choice.is_right else "Incorrect."
-        return render_template('community_quiz_result.html', quiz=quiz, question=question, result=result)
-    
-    return render_template('community_quiz.html', quiz=quiz, question=question)
 
 @app.route('/community_poll_vote/<int:poll_id>', methods=['POST'])
 @login_required
