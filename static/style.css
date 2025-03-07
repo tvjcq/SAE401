@@ -339,33 +339,36 @@ input[type="password"]::placeholder {
   color: white;
 }
 
+.jardin_1, .jardin_2, .jardin_3, .jardin_4 {
+  position: absolute;
+}
+
 .jardin_1 {
-  width: 40px;
+  width: 35px;
   height: 10px;
-  position: absolute;
-  top: 32%;
-  left: 30%;
+  top: 13%; /* Utilisation de % pour la hauteur */
+  left: 25%; /* Utilisation de % pour la largeur */
 }
+
 .jardin_2 {
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  top: 35%;
-  left: 30%;
+  width: 25px;
+  height: 30px;
+  top: 29%; /* Utilisation de % pour la hauteur */
+  left: 27%; /* Utilisation de % pour la largeur */
 }
+
 .jardin_3 {
   width: 18px;
   height: 25px;
-  position: absolute;
-  top: 39%;
-  left: 75%;
+  top: 42%; /* Utilisation de % pour la hauteur */
+  left: 83%; /* Utilisation de % pour la largeur */
 }
+
 .jardin_4 {
   width: 50px;
   height: 20px;
-  position: absolute;
-  top: 47%;
-  left: 16%;
+  top: 77%; /* Utilisation de % pour la hauteur */
+  left: 5%; /* Utilisation de % pour la largeur */
 }
 
 .validate-button {
