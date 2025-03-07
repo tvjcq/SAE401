@@ -260,7 +260,7 @@ body.accueil {
 .debut {
   width: 350px;
   align-items: center;
-  background-color: #1D7373;
+  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -323,4 +323,15 @@ input[type="password"] {
 input[type="email"]::placeholder,
 input[type="password"]::placeholder {
   color: #848484;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px;
+  background-color: #1D7373;
+  padding: 25px;
+  border-radius: 12px;
+  color: white;
 }
