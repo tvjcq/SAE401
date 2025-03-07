@@ -8,6 +8,7 @@ body {
   align-items: center;
   height: 100vh;
   text-align: center;
+  overflow: hidden;
 }
 
 .container {
@@ -17,6 +18,7 @@ body {
   height: 100vh;
   position: relative;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  overflow-y: auto;
 }
 
 .leaf-icon {
