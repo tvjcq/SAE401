@@ -311,7 +311,9 @@ form {
 }
 
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="text"],
+select {
   border: 0px solid;
   background-color: #D9D9D9;
   padding: 10px;
@@ -334,4 +336,33 @@ input[type="password"]::placeholder {
   padding: 25px;
   border-radius: 12px;
   color: white;
+}
+
+.jardin_1 {
+  width: 40px;
+  height: 10px;
+  position: absolute;
+  top: 32%;
+  left: 30%;
+}
+.jardin_2 {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 35%;
+  left: 30%;
+}
+.jardin_3 {
+  width: 18px;
+  height: 25px;
+  position: absolute;
+  top: 39%;
+  left: 75%;
+}
+.jardin_4 {
+  width: 50px;
+  height: 20px;
+  position: absolute;
+  top: 47%;
+  left: 16%;
 }

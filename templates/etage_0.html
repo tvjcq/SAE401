@@ -18,6 +18,18 @@
             <div>
                 <img src="{{ url_for('static', filename='src/images/plan_0.png') }}" alt="Plan des Potagers" style="width: 100%; max-width: 300px; margin: 20px 0;">
             </div>
+            <a href="{{ url_for('jardin_detail', jardin_id=1) }}">
+                <div class="jardin_1"></div>
+            </a>
+            <a href="{{ url_for('jardin_detail', jardin_id=2) }}">
+                <div class="jardin_2"></div>
+            </a>
+            <a href="{{ url_for('jardin_detail', jardin_id=3) }}">
+                <div class="jardin_3"></div>
+            </a>
+            <a href="{{ url_for('jardin_detail', jardin_id=4) }}">
+                <div class="jardin_4"></div>
+            </a>
             
             <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
                 <a href="{{ url_for('etage_0') }}">
