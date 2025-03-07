@@ -109,6 +109,37 @@ class Choice(db.Model):
     question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), nullable=False)
     text = db.Column(db.String(150), nullable=False)
     is_right = db.Column(db.Boolean, nullable=False)
+    
+# Modèle Message de la communauté
+class CommunityMessage(db.Model):
+    __tablename__ = 'community_messages'
+    id = db.Column(db.Integer, primary_key=True)
+    author = db.Column(db.String(150), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    type = db.Column(db.String(50), nullable=False, default="message")
+    timestamp = db.Column(db.DateTime, server_default=db.func.now())
+    
+class Poll(db.Model):
+    __tablename__ = 'polls'
+    id = db.Column(db.Integer, primary_key=True)
+    author = db.Column(db.String(150), nullable=False)
+    question = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, server_default=db.func.now())
+    options = db.relationship('PollOption', backref='poll', lazy=True)
+
+class PollOption(db.Model):
+    __tablename__ = 'poll_options'
+    id = db.Column(db.Integer, primary_key=True)
+    poll_id = db.Column(db.Integer, db.ForeignKey('polls.id'), nullable=False)
+    option_text = db.Column(db.String(150), nullable=False)
+    votes = db.Column(db.Integer, default=0)
+
+class PollVote(db.Model):
+    __tablename__ = 'poll_votes'
+    id = db.Column(db.Integer, primary_key=True)
+    poll_id = db.Column(db.Integer, db.ForeignKey('polls.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    poll_option_id = db.Column(db.Integer, db.ForeignKey('poll_options.id'), nullable=False)
 
 # Création de la base de données si elle n'existe pas
 with app.app_context():
@@ -360,23 +391,84 @@ def plant_id():
 @app.route('/community', methods=['GET', 'POST'])
 @login_required
 def community():
-    # Pour l'exemple, on stocke les messages dans la session.
-    if 'community_messages' not in session:
-        session['community_messages'] = []
     if request.method == 'POST' and current_user.is_admin:
         new_message = request.form.get('message')
-        # Le type de message peut être "message", "poll" ou "quiz" selon le bouton utilisé.
         message_type = request.form.get('type', 'message')
         if new_message:
-            session['community_messages'].append({
-                'author': current_user.first_name,
-                'content': new_message,
-                'type': message_type
-            })
-            session.modified = True
+            msg = CommunityMessage(
+                author=current_user.first_name,
+                content=new_message,
+                type=message_type
+            )
+            db.session.add(msg)
+            db.session.commit()
         return redirect(url_for('community'))
-    messages = session.get('community_messages', [])
-    return render_template('community.html', messages=messages)
+    messages = CommunityMessage.query.order_by(CommunityMessage.timestamp).all()
+    polls = Poll.query.order_by(Poll.timestamp.desc()).all()
+    quizzes = Quiz.query.order_by(Quiz.id.desc()).all()
+    return render_template('community.html', messages=messages, polls=polls, quizzes=quizzes)
+
+# language: python
+@app.route('/create_poll', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def create_poll():
+    if request.method == 'POST':
+        question = request.form.get('question')
+        options = request.form.getlist('option')  # plusieurs options sont envoyées
+        if question and options:
+            poll = Poll(author=current_user.first_name, question=question)
+            db.session.add(poll)
+            db.session.flush()  # pour obtenir poll.id
+            for opt in options:
+                if opt.strip():
+                    poll_option = PollOption(poll_id=poll.id, option_text=opt.strip())
+                    db.session.add(poll_option)
+            db.session.commit()
+            return redirect(url_for('community'))
+    return render_template('create_poll.html')
+
+@app.route('/poll/<int:poll_id>', methods=['GET', 'POST'])
+@login_required
+def poll(poll_id):
+    poll = Poll.query.get_or_404(poll_id)
+    if request.method == 'POST':
+        option_id = request.form.get('option')
+        option = PollOption.query.filter_by(id=option_id, poll_id=poll.id).first()
+        if option:
+            # Optionnel : vérifier qu'un utilisateur ne vote qu'une seule fois
+            option.votes += 1
+            vote = PollVote(poll_id=poll.id, user_id=current_user.id, poll_option_id=option.id)
+            db.session.add(vote)
+            db.session.commit()
+        return redirect(url_for('poll', poll_id=poll.id))
+    total_votes = sum(opt.votes for opt in poll.options)
+    return render_template('poll.html', poll=poll, total_votes=total_votes)
+
+@app.route('/create_quiz', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def create_quiz():
+    if request.method == 'POST':
+        title = request.form.get('title')
+        description = request.form.get('description')
+        question_text = request.form.get('question')
+        choices = request.form.getlist('choice')
+        correct_choice = request.form.get('correct_choice')
+        if title and question_text and choices and correct_choice:
+            quiz = Quiz(title=title, description=description)
+            db.session.add(quiz)
+            db.session.flush()  # pour obtenir quiz.id
+            question = Question(quiz_id=quiz.id, text=question_text)
+            db.session.add(question)
+            db.session.flush()  # pour obtenir question.id
+            for idx, choice_text in enumerate(choices):
+                is_right = (str(idx) == correct_choice)
+                choice = Choice(question_id=question.id, text=choice_text, is_right=is_right)
+                db.session.add(choice)
+            db.session.commit()
+            return redirect(url_for('community'))
+    return render_template('create_quiz.html')
 
 @app.route('/etage_0')
 def etage_0():
