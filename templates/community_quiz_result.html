@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ quiz.title }} - Résultat</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <h2>Résultat pour : {{ quiz.title }}</h2>
+    <p>Question : {{ question.text }}</p>
+    <p>Votre réponse est : {{ result }}</p>
+    <a href="{{ url_for('community') }}">Retour au fil communautaire</a>
+  </body>
+</html>

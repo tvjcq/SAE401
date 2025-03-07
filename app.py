@@ -133,6 +133,7 @@ class PollOption(db.Model):
     poll_id = db.Column(db.Integer, db.ForeignKey('polls.id'), nullable=False)
     option_text = db.Column(db.String(150), nullable=False)
     votes = db.Column(db.Integer, default=0)
+    poll_votes = db.relationship('PollVote', backref='poll_option', lazy=True)
 
 class PollVote(db.Model):
     __tablename__ = 'poll_votes'
@@ -406,8 +407,14 @@ def community():
     messages = CommunityMessage.query.order_by(CommunityMessage.timestamp).all()
     polls = Poll.query.order_by(Poll.timestamp.desc()).all()
     quizzes = Quiz.query.order_by(Quiz.id.desc()).all()
+    
+    # Calculer si l'utilisateur a voté pour chaque sondage
+    for poll in polls:
+        poll.has_voted = PollVote.query.filter_by(poll_id=poll.id, user_id=current_user.id).first() is not None
+        # Calcul du total de votes pour faciliter le calcul des pourcentages
+        poll.total_votes = sum(opt.votes for opt in poll.options)
+        
     return render_template('community.html', messages=messages, polls=polls, quizzes=quizzes)
-
 # language: python
 @app.route('/create_poll', methods=['GET', 'POST'])
 @login_required
@@ -469,6 +476,26 @@ def create_quiz():
             db.session.commit()
             return redirect(url_for('community'))
     return render_template('create_quiz.html')
+
+
+@app.route('/community_poll_vote/<int:poll_id>', methods=['POST'])
+@login_required
+def community_poll_vote(poll_id):
+    poll = Poll.query.get_or_404(poll_id)
+    try:
+        option_id = int(request.form.get('option'))
+    except (ValueError, TypeError):
+        return redirect(url_for('community'))
+    option = PollOption.query.filter_by(id=option_id, poll_id=poll.id).first()
+    if option:
+        # Empêche un utilisateur de voter plusieurs fois
+        existing_vote = PollVote.query.filter_by(poll_id=poll.id, user_id=current_user.id).first()
+        if not existing_vote:
+            option.votes += 1
+            vote = PollVote(poll_id=poll.id, user_id=current_user.id, poll_option_id=option.id)
+            db.session.add(vote)
+            db.session.commit()
+    return redirect(url_for('community'))
 
 @app.route('/etage_0')
 def etage_0():

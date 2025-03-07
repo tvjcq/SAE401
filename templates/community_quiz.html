@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ quiz.title }} - Répondre</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <h2>Question : {{ question.text }}</h2>
+    <form class="quiz-form" method="post">
+      {% for choice in question.choices %}
+      <div>
+        <input
+          type="radio"
+          id="choice_{{ choice.id }}"
+          name="choice"
+          value="{{ choice.id }}"
+          required
+        />
+        <label for="choice_{{ choice.id }}">{{ choice.text }}</label>
+      </div>
+      {% endfor %}
+      <button type="submit">Valider</button>
+    </form>
+    <a href="{{ url_for('community') }}">Retour au fil communautaire</a>
+  </body>
+</html>

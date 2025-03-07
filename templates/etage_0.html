@@ -1,48 +1,89 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Plan des Potagers</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
     <div class="container">
-        <div class="leaf-icon">🌿</div>
-        
-        <div class="profile-info">
-            <h3>Découvrez les potagers de l'IUT</h3>
-            <p>Cette page vous permet de localiser tous les potagers présents sur le site de l'IUT.</p>
-            <p>Chaque potager est représenté sur le plan interactif, et vous pouvez cliquer dessus pour accéder à des informations détaillées !</p>
-            
-            <div>
-                <img src="{{ url_for('static', filename='src/images/plan_0.png') }}" alt="Plan des Potagers" style="width: 100%; max-width: 300px; margin: 20px 0;">
-            </div>
-            <a href="{{ url_for('jardin_detail', jardin_id=1) }}">
-                <div class="jardin_1"></div>
-            </a>
-            <a href="{{ url_for('jardin_detail', jardin_id=2) }}">
-                <div class="jardin_2"></div>
-            </a>
-            <a href="{{ url_for('jardin_detail', jardin_id=3) }}">
-                <div class="jardin_3"></div>
-            </a>
-            <a href="{{ url_for('jardin_detail', jardin_id=4) }}">
-                <div class="jardin_4"></div>
-            </a>
-            
-            <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
-                <a href="{{ url_for('etage_0') }}">
-                    <button class="floor-button active">0</button>
-                </a>
-                <a href="{{ url_for('etage_1') }}">
-                    <button class="floor-button">1</button>
-                </a>
-                <a href="{{ url_for('etage_2') }}">
-                    <button class="floor-button">2</button>
-                </a>
-            </div>
+      <div class="leaf-icon">🌿</div>
+
+      <div class="profile-info">
+        <h3>Découvrez les potagers de l'IUT</h3>
+        <p>
+          Cette page vous permet de localiser tous les potagers présents sur le
+          site de l'IUT.
+        </p>
+        <p>
+          Chaque potager est représenté sur le plan interactif, et vous pouvez
+          cliquer dessus pour accéder à des informations détaillées !
+        </p>
+
+        <div>
+          <img
+            src="{{ url_for('static', filename='src/images/plan_0.png') }}"
+            alt="Plan des Potagers"
+            style="width: 100%; max-width: 300px; margin: 20px 0"
+          />
         </div>
+        
+        {% if current_user.is_admin %}
+        <a href="{{ url_for('admin_edit_jardin', jardin_id=1) }}">
+        {% else %}
+        <a href="{{ url_for('jardin_detail', jardin_id=1) }}">
+        {% endif %}
+          <div class="jardin_1"></div>
+        </a>
+        {% if current_user.is_admin %}
+        <a href="{{ url_for('admin_edit_jardin', jardin_id=2) }}">
+        {% else %}
+        <a href="{{ url_for('jardin_detail', jardin_id=2) }}">
+        {% endif %}
+          <div class="jardin_2"></div>
+        </a>
+        {% if current_user.is_admin %}
+        <a href="{{ url_for('admin_edit_jardin', jardin_id=3) }}">
+        {% else %}
+        <a href="{{ url_for('jardin_detail', jardin_id=3) }}">
+        {% endif %}
+          <div class="jardin_3"></div>
+        </a>
+        {% if current_user.is_admin %}
+        <a href="{{ url_for('admin_edit_jardin', jardin_id=4) }}">
+        {% else %}
+        <a href="{{ url_for('jardin_detail', jardin_id=4) }}">
+        {% endif %}
+          <div class="jardin_4"></div>
+        </a>
+
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+          "
+        >
+
+          <a href="{{ url_for('etage_0') }}">
+
+            <button class="floor-button active">0</button>
+          </a>
+          
+          <a href="{{ url_for('etage_1') }}">
+            <button class="floor-button">1</button>
+          </a>
+          
+          <a href="{{ url_for('etage_2') }}">
+            <button class="floor-button">2</button>
+          </a>
+        </div>
+      </div>
 
         <div class="bottom-nav">
             <div class="nav-item">
@@ -132,5 +173,5 @@
             </div>
           </div>
     </div>
-</body>
+  </body>
 </html>
