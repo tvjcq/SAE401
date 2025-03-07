@@ -98,6 +98,10 @@ body {
   cursor: pointer;
 }
 
+.edit-button:hover {
+  background-color: #FF2A3A;
+}
+
 .logout {
   text-align: center;
   margin-bottom: 20px;

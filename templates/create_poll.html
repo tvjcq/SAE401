@@ -1,35 +1,127 @@
-<!-- language: html -->
 <!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <title>Créer un sondage</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   </head>
-  <body>
-    <h1>Créer un sondage</h1>
-    <form method="post">
-      <div>
-        <label for="question">Question du sondage :</label>
-        <input type="text" name="question" id="question" required />
+  <body class="accueil">
+    <div class="container accueil">
+      <div class="debut">
+        <h1>Créer un sondage</h1>
+        <form method="post">
+          <div class="info-item">
+            <label for="question" class="info-label">Question du sondage :</label>
+            <input type="text" name="question" id="question" required />
+          </div>
+          <div class="info-item">
+            <label class="info-label">Option 1 :</label>
+            <input type="text" name="option" placeholder="Option 1" required />
+          </div>
+          <div class="info-item">
+            <label class="info-label">Option 2 :</label>
+            <input type="text" name="option" placeholder="Option 2" required />
+          </div>
+          <div class="info-item">
+            <label class="info-label">Option 3 :</label>
+            <input type="text" name="option" placeholder="Option 3" />
+          </div>
+          <div class="info-item">
+            <label class="info-label">Option 4 :</label>
+            <input type="text" name="option" placeholder="Option 4" />
+          </div>
+          <button type="submit" class="edit-button">Créer</button>
+        </form>
+        <a href="{{ url_for('community') }}" class="btn-retour">Retour au fil communautaire</a>
       </div>
-      <div>
-        <label>Option 1 :</label>
-        <input type="text" name="option" placeholder="Option 1" required />
+    </div>
+    <!-- Barre de navigation du bas -->
+    <div class="bottom-nav">
+      <div class="nav-item">
+        <a href="{{ url_for('etage_0') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path
+              d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+            ></path>
+          </svg>
+        </a>
       </div>
-      <div>
-        <label>Option 2 :</label>
-        <input type="text" name="option" placeholder="Option 2" required />
+      <div class="nav-item" id="scan">
+        <a href="{{ url_for('plant_id') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+            <path d="M2 12h20"></path>
+            <path d="M12 2v20"></path>
+          </svg>
+        </a>
       </div>
-      <div>
-        <label>Option 3 :</label>
-        <input type="text" name="option" placeholder="Option 3" />
+      <div class="nav-item">
+        <a href="{{ url_for('accueil') }}">
+          <img
+            src="{{ url_for('static', filename='src/images/logo_jaune.png') }}"
+            style="height: auto; width: 30px"
+            alt="Logo jaune"
+          />
+        </a>
       </div>
-      <div>
-        <label>Option 4 :</label>
-        <input type="text" name="option" placeholder="Option 4" />
+      <div class="nav-item" id="chat">
+        <a href="{{ url_for('community') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+            ></path>
+          </svg>
+        </a>
       </div>
-      <button type="submit">Créer</button>
-    </form>
-    <a href="{{ url_for('community') }}">Retour au fil communautaire</a>
+      <div class="nav-item" id="profil">
+        <a href="{{ url_for('profile') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </a>
+      </div>
+    </div>
   </body>
 </html>
