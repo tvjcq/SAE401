@@ -440,3 +440,30 @@ input[type="password"]::placeholder {
 .legume-name {
   font-size: 1em;
 }
+
+.message-erreur {
+  color: red;
+}
+
+.btn-retour, .btn-vote {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #f0ad4e;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.btn-retour:hover, .btn-vote:hover {
+  background-color: #ec971f;
+}
+
+.liste-legumes {
+  list-style-type: none;
+  padding: 0;
+}
+
+.liste-legumes li {
+  margin: 10px 0;
+}
