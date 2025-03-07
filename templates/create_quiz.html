@@ -1,0 +1,48 @@
+<!-- language: html -->
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Créer un quiz</title>
+  </head>
+  <body>
+    <h1>Créer un quiz</h1>
+    <form method="post">
+      <div>
+        <label for="title">Titre du quiz :</label>
+        <input type="text" name="title" id="title" required />
+      </div>
+      <div>
+        <label for="description">Description :</label>
+        <textarea name="description" id="description"></textarea>
+      </div>
+      <div>
+        <label for="question">Question :</label>
+        <input type="text" name="question" id="question" required />
+      </div>
+
+      <div>
+        <label>Choix 1 :</label>
+        <input type="text" name="choice" placeholder="Choix 1" required />
+        <input type="radio" name="correct_choice" value="0" required /> Correct
+      </div>
+      <div>
+        <label>Choix 2 :</label>
+        <input type="text" name="choice" placeholder="Choix 2" required />
+        <input type="radio" name="correct_choice" value="1" /> Correct
+      </div>
+      <div>
+        <label>Choix 3 :</label>
+        <input type="text" name="choice" placeholder="Choix 3" />
+        <input type="radio" name="correct_choice" value="2" /> Correct
+      </div>
+      <div>
+        <label>Choix 4 :</label>
+        <input type="text" name="choice" placeholder="Choix 4" />
+        <input type="radio" name="correct_choice" value="3" /> Correct
+      </div>
+      <button type="submit">Créer le quiz</button>
+    </form>
+    <a href="{{ url_for('community') }}">Retour au fil communautaire</a>
+  </body>
+</html>

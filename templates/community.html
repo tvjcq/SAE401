@@ -94,7 +94,7 @@
       <div class="quiz">
         <h3>{{ quiz.title }}</h3>
         <p>{{ quiz.description }}</p>
-        <a href="{{ url_for('community_quiz', quiz_id=quiz.id) }}"
+        <a href="{{ url_for('quiz_intro', quiz_id=quiz.id) }}"
           >Répondre au quiz</a
         >
       </div>
