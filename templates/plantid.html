@@ -3,18 +3,118 @@
   <head>
     <meta charset="UTF-8" />
     <title>Identification de Plante</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   </head>
-  <body>
-    <h1>Identifiez votre plante</h1>
-    {% if error %}
-    <p style="color: red">{{ error }}</p>
-    {% endif %} {% if plant_name %}
-    <p>La plante identifiée est : {{ plant_name }}</p>
-    {% endif %}
-    <form method="post" enctype="multipart/form-data">
-      <input type="file" name="photo" accept="image/*" required />
-      <button type="submit">Identifier</button>
-    </form>
-    <a href="{{ url_for('index') }}">Retour accueil</a>
+  <body class="accueil">
+    <div class="container accueil">
+      <div class="debut">
+        <div class="logo-container">
+          <img
+            src="{{ url_for('static', filename='src/images/logo_jaune.png') }}"
+            alt="Logo jaune"
+            class="logo"
+          />
+        </div>
+        <h1>Identifiez votre plante</h1>
+        {% if error %}
+        <p style="color: red">{{ error }}</p>
+        {% endif %} {% if plant_name %}
+        <p>La plante identifiée est : {{ plant_name }}</p>
+        {% endif %}
+        <form method="post" enctype="multipart/form-data">
+          <input type="file" name="photo" accept="image/*" required />
+          <button type="submit" class="edit-button">Identifier</button>
+        </form>
+        <a href="{{ url_for('index') }}" class="btn-retour">Retour accueil</a>
+      </div>
+    </div>
+    <!-- Barre de navigation du bas -->
+    <div class="bottom-nav">
+      <div class="nav-item">
+        <a href="{{ url_for('etage_0') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path
+              d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+            ></path>
+          </svg>
+        </a>
+      </div>
+      <div class="nav-item" id="scan">
+        <a href="{{ url_for('plant_id') }}">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+          <path d="M2 12h20"></path>
+          <path d="M12 2v20"></path>
+        </svg>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="{{ url_for('accueil') }}">
+          <img
+            src="{{ url_for('static', filename='src/images/logo_jaune.png') }}"
+            style="height: auto; width: 30px"
+            alt="Logo jaune"
+          />
+        </a>
+      </div>
+      <div class="nav-item" id="chat">
+        <a href="{{ url_for('community') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+            ></path>
+          </svg>
+        </a>
+      </div>
+      <div class="nav-item" id="profil">
+        <a href="{{ url_for('profile') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </a>
+      </div>
+    </div>
   </body>
 </html>

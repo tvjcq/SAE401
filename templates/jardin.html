@@ -3,25 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <title>{{ jardin.nom }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   </head>
-  <body>
-    <h1>Jardin : {{ jardin.nom }}</h1>
-    <p>Type : {{ jardin.type }}</p>
-    <ul>
-      {% for slot in jardin.slots %}
-      <li>
-        Slot position : {{ slot.position }} - {% if slot.legume_id is none %}
-        <a href="{{ url_for('vote_slot', slot_id=slot.id) }}"
-          >Voter pour ce slot</a
-        >
-        {% else %}
-        <a href="{{ url_for('legume_detail', legume_id=slot.legume.id) }}"
-          >Voir le légume : {{ slot.legume.nom }}</a
-        >
-        {% endif %}
-      </li>
-      {% endfor %}
-    </ul><div class="bottom-nav">
+  <body class="accueil">
+    <div class="container accueil">
+      <div class="debut">
+        <h1>Jardin : {{ jardin.nom }}</h1>
+        <p>Type : {{ jardin.type }}</p>
+        <div class="potager-container">
+          <img src="{{ url_for('static', filename='src/images/potager.png') }}" alt="Potager" class="potager-image" />
+          <div class="slots">
+            {% for slot in jardin.slots %}
+            <div class="slot">
+              {% if slot.legume_id is none %}
+              <a href="{{ url_for('vote_slot', slot_id=slot.id) }}" class="slot-button">
+                <span class="plus-icon">+</span>
+              </a>
+              {% else %}
+              <a href="{{ url_for('legume_detail', legume_id=slot.legume.id) }}" class="slot-button">
+                <span class="legume-name">{{ slot.legume.nom }}</span>
+              </a>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Barre de navigation du bas -->
+    <div class="bottom-nav">
       <div class="nav-item">
         <a href="{{ url_for('etage_0') }}">
           <svg

@@ -24,154 +24,142 @@
           cliquer dessus pour accéder à des informations détaillées !
         </p>
 
-        <div>
+        <div style="position: relative;">
           <img
             src="{{ url_for('static', filename='src/images/plan_0.png') }}"
             alt="Plan des Potagers"
             style="width: 100%; max-width: 300px; margin: 20px 0"
           />
+          {% if current_user.is_admin %}
+          <a href="{{ url_for('admin_edit_jardin', jardin_id=1) }}">
+          {% else %}
+          <a href="{{ url_for('jardin_detail', jardin_id=1) }}">
+          {% endif %}
+            <div class="jardin_1"></div>
+          </a>
+          {% if current_user.is_admin %}
+          <a href="{{ url_for('admin_edit_jardin', jardin_id=2) }}">
+          {% else %}
+          <a href="{{ url_for('jardin_detail', jardin_id=2) }}">
+          {% endif %}
+            <div class="jardin_2"></div>
+          </a>
+          {% if current_user.is_admin %}
+          <a href="{{ url_for('admin_edit_jardin', jardin_id=3) }}">
+          {% else %}
+          <a href="{{ url_for('jardin_detail', jardin_id=3) }}">
+          {% endif %}
+            <div class="jardin_3"></div>
+          </a>
+          {% if current_user.is_admin %}
+          <a href="{{ url_for('admin_edit_jardin', jardin_id=4) }}">
+          {% else %}
+          <a href="{{ url_for('jardin_detail', jardin_id=4) }}">
+          {% endif %}
+            <div class="jardin_4"></div>
+          </a>
         </div>
-        
-        {% if current_user.is_admin %}
-        <a href="{{ url_for('admin_edit_jardin', jardin_id=1) }}">
-        {% else %}
-        <a href="{{ url_for('jardin_detail', jardin_id=1) }}">
-        {% endif %}
-          <div class="jardin_1"></div>
-        </a>
-        {% if current_user.is_admin %}
-        <a href="{{ url_for('admin_edit_jardin', jardin_id=2) }}">
-        {% else %}
-        <a href="{{ url_for('jardin_detail', jardin_id=2) }}">
-        {% endif %}
-          <div class="jardin_2"></div>
-        </a>
-        {% if current_user.is_admin %}
-        <a href="{{ url_for('admin_edit_jardin', jardin_id=3) }}">
-        {% else %}
-        <a href="{{ url_for('jardin_detail', jardin_id=3) }}">
-        {% endif %}
-          <div class="jardin_3"></div>
-        </a>
-        {% if current_user.is_admin %}
-        <a href="{{ url_for('admin_edit_jardin', jardin_id=4) }}">
-        {% else %}
-        <a href="{{ url_for('jardin_detail', jardin_id=4) }}">
-        {% endif %}
-          <div class="jardin_4"></div>
-        </a>
 
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-          "
-        >
-
+        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
           <a href="{{ url_for('etage_0') }}">
-
             <button class="floor-button active">0</button>
           </a>
-          
           <a href="{{ url_for('etage_1') }}">
             <button class="floor-button">1</button>
           </a>
-          
           <a href="{{ url_for('etage_2') }}">
             <button class="floor-button">2</button>
           </a>
         </div>
       </div>
 
-        <div class="bottom-nav">
-            <div class="nav-item">
-              <a href="{{ url_for('etage_0') }}">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                  <path
-                    d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
-                  ></path>
-                </svg>
-              </a>
-            </div>
-            <div class="nav-item" id="scan">
-              <a href="{{ url_for('plant_id') }}">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <rect x="2" y="2" width="20" height="20" rx="5"></rect>
-                <path d="M2 12h20"></path>
-                <path d="M12 2v20"></path>
-              </svg>
-              </a>
-            </div>
-            <div class="nav-item">
-              <a href="{{ url_for('accueil') }}">
-                <img
-                  src="{{ url_for('static', filename='src/images/logo_jaune.png') }}"
-                  style="height: auto; width: 30px"
-                  alt="Logo jaune"
-                />
-              </a>
-            </div>
-            <div class="nav-item" id="chat">
-              <a href="{{ url_for('community') }}">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path
-                    d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-                  ></path>
-                </svg>
-              </a>
-            </div>
-            <div class="nav-item" id="profil">
-              <a href="{{ url_for('profile') }}">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-              </a>
-            </div>
-          </div>
+      <div class="bottom-nav">
+        <div class="nav-item">
+          <a href="{{ url_for('etage_0') }}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path
+                d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+              ></path>
+            </svg>
+          </a>
+        </div>
+        <div class="nav-item" id="scan">
+          <a href="{{ url_for('plant_id') }}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+              <path d="M2 12h20"></path>
+              <path d="M12 2v20"></path>
+            </svg>
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="{{ url_for('accueil') }}">
+            <img
+              src="{{ url_for('static', filename='src/images/logo_jaune.png') }}"
+              style="height: auto; width: 30px"
+              alt="Logo jaune"
+            />
+          </a>
+        </div>
+        <div class="nav-item" id="chat">
+          <a href="{{ url_for('community') }}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+              ></path>
+            </svg>
+          </a>
+        </div>
+        <div class="nav-item" id="profil">
+          <a href="{{ url_for('profile') }}">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </a>
+        </div>
+      </div>
     </div>
   </body>
 </html>
