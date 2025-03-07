@@ -122,7 +122,7 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
             login_user(user)
-            return redirect(url_for('index'))
+            return redirect(url_for('accueil'))
         else:
             return render_template('login.html', error="Identifiants invalides")
     return render_template('login.html')
