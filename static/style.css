@@ -195,7 +195,7 @@ body.acceuil {
 }
 
 .card-link {
-  background-color: #FFBF47;
+  background-color: #FF748B;
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
@@ -328,7 +328,6 @@ input[type="email"]::placeholder,
 input[type="password"]::placeholder {
   color: #848484;
 }
-
 .logo-container {
   display: flex;
   flex-direction: column;
@@ -367,4 +366,21 @@ input[type="password"]::placeholder {
   position: absolute;
   top: 47%;
   left: 16%;
+}
+
+.validate-button {
+  background-color: #FF748B;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.validate-button:hover {
+  background-color: #FF9F00;
 }
