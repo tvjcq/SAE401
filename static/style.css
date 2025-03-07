@@ -98,6 +98,10 @@ body {
   cursor: pointer;
 }
 
+.edit-button:hover {
+  background-color: #FF2A3A;
+}
+
 .logout {
   text-align: center;
   margin-bottom: 20px;
@@ -164,7 +168,7 @@ body.acceuil {
 }
 
 .weather-item {
-  background-color: #FFBF47;
+  background-color: #ACB54A;
   color: black;
   border-radius: 8px;
   text-align: center;
@@ -174,8 +178,16 @@ body.acceuil {
   padding: 5px;
 }
 
+#weather-card {
+  background-color: #ACB54A;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
+}
 .card {
-  background-color: #fff;
+  background-color: #237871;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 10px;
@@ -190,7 +202,7 @@ body.acceuil {
 
 .card-description {
   font-size: 0.9em;
-  color: #666;
+  color: #ececec;
   margin-bottom: 10px;
 }
 

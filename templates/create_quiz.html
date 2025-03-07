@@ -4,45 +4,137 @@
   <head>
     <meta charset="UTF-8" />
     <title>Créer un quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   </head>
-  <body>
-    <h1>Créer un quiz</h1>
-    <form method="post">
-      <div>
-        <label for="title">Titre du quiz :</label>
-        <input type="text" name="title" id="title" required />
-      </div>
-      <div>
-        <label for="description">Description :</label>
-        <textarea name="description" id="description"></textarea>
-      </div>
-      <div>
-        <label for="question">Question :</label>
-        <input type="text" name="question" id="question" required />
-      </div>
+  <body class="accueil">
+    <div class="container accueil">
+      <div class="debut">
+        <h1>Créer un quiz</h1>
+        <form method="post">
+          <div class="info-item">
+            <label for="title" class="info-label">Titre du quiz :</label>
+            <input type="text" name="title" id="title" class="info-input" required />
+          </div>
+          <div class="info-item">
+            <label for="description" class="info-label">Description :</label>
+            <textarea name="description" id="description" class="info-input"></textarea>
+          </div>
+          <div class="info-item">
+            <label for="question" class="info-label">Question :</label>
+            <input type="text" name="question" id="question" class="info-input" required />
+          </div>
 
-      <div>
-        <label>Choix 1 :</label>
-        <input type="text" name="choice" placeholder="Choix 1" required />
-        <input type="radio" name="correct_choice" value="0" required /> Correct
+          <div class="info-item">
+            <label>Choix 1 :</label>
+            <input type="text" name="choice" placeholder="Choix 1" class="info-input" required />
+            <input type="radio" name="correct_choice" value="0" required /> Correct
+          </div>
+          <div class="info-item">
+            <label>Choix 2 :</label>
+            <input type="text" name="choice" placeholder="Choix 2" class="info-input" required />
+            <input type="radio" name="correct_choice" value="1" /> Correct
+          </div>
+          <div class="info-item">
+            <label>Choix 3 :</label>
+            <input type="text" name="choice" placeholder="Choix 3" class="info-input" />
+            <input type="radio" name="correct_choice" value="2" /> Correct
+          </div>
+          <div class="info-item">
+            <label>Choix 4 :</label>
+            <input type="text" name="choice" placeholder="Choix 4" class="info-input" />
+            <input type="radio" name="correct_choice" value="3" /> Correct
+          </div>
+          <button type="submit" class="edit-button">Créer le quiz</button>
+        </form>
+        <a href="{{ url_for('community') }}" class="btn-retour">Retour au fil communautaire</a>
       </div>
-      <div>
-        <label>Choix 2 :</label>
-        <input type="text" name="choice" placeholder="Choix 2" required />
-        <input type="radio" name="correct_choice" value="1" /> Correct
+    </div>
+    <!-- Barre de navigation du bas -->
+    <div class="bottom-nav">
+      <div class="nav-item">
+        <a href="{{ url_for('etage_0') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polygon points="1 6 1 22 8 19 16 22 23 19 23 3 16 6 8 3 1 6"></polygon>
+            <line x1="8" y1="3" x2="8" y2="19"></line>
+            <line x1="16" y1="6" x2="16" y2="22"></line>
+          </svg>
+        </a>
       </div>
-      <div>
-        <label>Choix 3 :</label>
-        <input type="text" name="choice" placeholder="Choix 3" />
-        <input type="radio" name="correct_choice" value="2" /> Correct
+      <div class="nav-item" id="scan">
+        <a href="{{ url_for('plant_id') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+            <path d="M2 12h20"></path>
+            <path d="M12 2v20"></path>
+          </svg>
+        </a>
       </div>
-      <div>
-        <label>Choix 4 :</label>
-        <input type="text" name="choice" placeholder="Choix 4" />
-        <input type="radio" name="correct_choice" value="3" /> Correct
+      <div class="nav-item">
+        <a href="{{ url_for('accueil') }}">
+          <img
+            src="{{ url_for('static', filename='src/images/logo_jaune.png') }}"
+            style="height: auto; width: 30px"
+            alt="Logo jaune"
+          />
+        </a>
       </div>
-      <button type="submit">Créer le quiz</button>
-    </form>
-    <a href="{{ url_for('community') }}">Retour au fil communautaire</a>
+      <div class="nav-item" id="chat">
+        <a href="{{ url_for('community') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+            ></path>
+          </svg>
+        </a>
+      </div>
+      <div class="nav-item" id="profil">
+        <a href="{{ url_for('profile') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </a>
+      </div>
+    </div>
   </body>
 </html>
