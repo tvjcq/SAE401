@@ -33,6 +33,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(150), nullable=False)
     last_name = db.Column(db.String(150), nullable=False)
     first_name = db.Column(db.String(150), nullable=False)
+    seeds = db.Column(db.Integer, default=10, nullable=False)
     status = db.Column(db.String(150), nullable=False)
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
     
@@ -274,6 +275,8 @@ def quiz_question(quiz_id):
         correct = chosen_choice.is_right if chosen_choice else False
         if correct:
             session['quiz_score'] += 1
+            current_user.seeds += 2
+            db.session.commit()
         
         feedback = {
             'selected': chosen_choice_id,

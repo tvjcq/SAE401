@@ -7,6 +7,116 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
     />
+    <style>
+      /* Style for the chat container */
+      .chat-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        overflow-y: auto;
+        align-items: flex-start;
+      }
+
+      /* Base style for chat messages */
+      .chat-message {
+        background-color: #ffc0cb; /* Light pink */
+        padding: 10px 15px;
+        border-radius: 20px;
+        max-width: 70%;
+        word-wrap: break-word;
+        position: relative;
+        align-self: flex-start;
+      }
+
+      /* Align admin messages to the left; user messages to the right */
+      .chat-message.admin {
+        align-self: flex-start;
+      }
+
+      .chat-message.user {
+        align-self: flex-end;
+      }
+
+      /* Poll container styling */
+      .poll {
+        background-color: #ffe6ee; /* Lighter pink background */
+        border: 1px solid #ffc0cb;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 600px;
+        text-align: left;
+      }
+
+      /* Title for poll */
+      .poll h3 {
+        margin-bottom: 10px;
+        font-size: 1.2em;
+        font-weight: bold;
+      }
+
+      /* Poll form options */
+      .poll-option {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .poll-form button {
+        background-color: #ffc0cb;
+        color: #000;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .poll-form button:hover {
+        opacity: 0.9;
+      }
+
+      .poll-option input[type="radio"] {
+        margin: 0;
+        /* Remove default appearance */
+        appearance: none;
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        background-color: #ffd700; /* Yellow background */
+        border: 2px solid #ffc0cb; /* Pink border */
+        border-radius: 8px; /* Rounded square */
+        cursor: pointer;
+      }
+
+      .poll-option input[type="radio"]:checked {
+        background-color: #ffeb3b; /* Light yellow when checked */
+        border-color: #ffcc00;
+      }
+
+      /* Style for a progress bar below each poll option */
+      .poll-result {
+        margin-top: 5px;
+      }
+
+      .poll-result .bar-container {
+        background-color: #ffe6ee;
+        border: 1px solid #ffc0cb;
+        border-radius: 5px;
+        height: 10px;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .poll-result .bar {
+        background-color: #ffc0cb;
+        height: 100%;
+        width: 0%;
+        transition: width 0.5s ease;
+      }
+    </style>
   </head>
   <body class="accueil">
     <div class="container accueil">
@@ -43,9 +153,14 @@
             <ul>
               {% for option in poll.options %}
               <li>
-                {{ option.option_text }} : {% if poll.total_votes > 0 %} {{
-                "%.0f"|format((option.votes / poll.total_votes * 100)) }} % {%
-                else %} 0 % {% endif %}
+                {{ option.option_text }} : {% set percentage =
+                ("%.0f"|format((option.votes / poll.total_votes * 100))) if
+                poll.total_votes > 0 else 0 %} {{ percentage }} %
+                <div class="poll-result">
+                  <div class="bar-container">
+                    <div class="bar" data-percentage="{{ percentage }}"></div>
+                  </div>
+                </div>
               </li>
               {% endfor %}
             </ul>
@@ -105,63 +220,8 @@
         </form>
         {% endif %}
       </div>
-
-      <div class="section">
-        <h2>Sondages</h2>
-        {% for poll in polls %}
-        <div class="poll">
-          <h3>{{ poll.question }}</h3>
-          {% if poll.has_voted %}
-          <p>Résultats :</p>
-          <ul>
-            {% for option in poll.options %}
-            <li>
-              {{ option.option_text }} : {% if poll.total_votes > 0 %} {{
-              "%.0f"|format((option.votes / poll.total_votes * 100)) }} % {%
-              else %} 0 % {% endif %}
-            </li>
-            {% endfor %}
-          </ul>
-          {% else %}
-          <form
-            class="poll-form"
-            method="post"
-            action="{{ url_for('community_poll_vote', poll_id=poll.id) }}"
-          >
-            {% for option in poll.options %}
-            <div class="poll-option">
-              <input
-                type="radio"
-                id="poll_option_{{ option.id }}"
-                name="option"
-                value="{{ option.id }}"
-                required
-              />
-              <label for="poll_option_{{ option.id }}"
-                >{{ option.option_text }}</label
-              >
-            </div>
-            {% endfor %}
-            <button type="submit">Voter</button>
-          </form>
-          {% endif %}
-        </div>
-        {% endfor %}
-      </div>
-
-      <div class="section">
-        <h2>Quizzes</h2>
-        {% for quiz in quizzes %}
-        <div class="quiz">
-          <h3>{{ quiz.title }}</h3>
-          <p>{{ quiz.description }}</p>
-          <a href="{{ url_for('quiz_intro', quiz_id=quiz.id) }}"
-            >Répondre au quiz</a
-          >
-        </div>
-        {% endfor %}
-      </div>
     </div>
+
     <!-- Barre de navigation du bas -->
     <div class="bottom-nav">
       <div class="nav-item">
@@ -256,6 +316,11 @@
         var extra = document.getElementById("extra-options");
         extra.style.display = extra.style.display === "none" ? "block" : "none";
       }
+
+      document.querySelectorAll(".bar").forEach((bar) => {
+        let percentage = bar.getAttribute("data-percentage") || 0;
+        bar.style.width = percentage + "%";
+      });
     </script>
   </body>
 </html>

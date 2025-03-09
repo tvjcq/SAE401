@@ -11,6 +11,34 @@
   </head>
   <body class="accueil">
     <div class="container accueil">
+      <div
+        style="
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          background: #f9c346;
+          color: white;
+          padding: 5px;
+          border-radius: 5px;
+          z-index: 1000;
+        "
+      >
+        <svg
+          width="20"
+          height="21"
+          viewBox="0 0 20 21"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15.774 2.22643C16.4419 2.22643 17.1098 2.22643 17.6664 2.33776C17.8891 4.89815 17.8891 10.019 14.8834 13.5812C12.657 16.3643 8.87203 17.8115 3.75124 17.8115H2.30405C2.08141 12.6907 3.08331 8.68309 5.42106 6.12269C8.2041 2.89436 12.657 2.22643 15.774 2.22643ZM15.774 0C9.65129 0 -1.59221 2.33775 0.188941 19.8153C1.41348 19.9266 2.63802 20.0379 3.75124 20.0379C23.6778 20.0379 19.6702 0.333965 19.6702 0.333965C19.6702 0.333965 18.1117 0 15.774 0ZM15.5513 4.45287C4.41917 4.45287 4.41917 15.585 4.41917 15.585C8.87203 6.6793 15.5513 4.45287 15.5513 4.45287Z"
+            fill="white"
+          /></svg
+        >{{ current_user.seeds }}
+      </div>
       <div class="debut">
         <div class="logo-container">
           <img
@@ -56,42 +84,44 @@
 
     <!-- Barre de navigation du bas -->
     <div class="bottom-nav">
-<div class="nav-item">
-  <a href="{{ url_for('etage_0') }}">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <polygon points="1 6 1 22 8 19 16 22 23 19 23 3 16 6 8 3 1 6"></polygon>
-      <line x1="8" y1="3" x2="8" y2="19"></line>
-      <line x1="16" y1="6" x2="16" y2="22"></line>
-    </svg>
-  </a>
-</div>
+      <div class="nav-item">
+        <a href="{{ url_for('etage_0') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polygon
+              points="1 6 1 22 8 19 16 22 23 19 23 3 16 6 8 3 1 6"
+            ></polygon>
+            <line x1="8" y1="3" x2="8" y2="19"></line>
+            <line x1="16" y1="6" x2="16" y2="22"></line>
+          </svg>
+        </a>
+      </div>
       <div class="nav-item" id="scan">
         <a href="{{ url_for('plant_id') }}">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <rect x="2" y="2" width="20" height="20" rx="5"></rect>
-          <path d="M2 12h20"></path>
-          <path d="M12 2v20"></path>
-        </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+            <path d="M2 12h20"></path>
+            <path d="M12 2v20"></path>
+          </svg>
         </a>
       </div>
       <div class="nav-item">
