@@ -1,4 +1,3 @@
-# language: python
 from app import db, User, app
 from werkzeug.security import generate_password_hash
 
