@@ -313,6 +313,9 @@ body.accueil {
   background-color: #ddd;
   border-color: #888;
 }
+input[type="radio"] {
+  display: none;
+}
 
 form {
   display: flex;

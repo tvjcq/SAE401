@@ -33,7 +33,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(150), nullable=False)
     last_name = db.Column(db.String(150), nullable=False)
     first_name = db.Column(db.String(150), nullable=False)
-    seeds = db.Column(db.Integer, default=10, nullable=False)
+    seeds = db.Column(db.Integer, default=0, nullable=False)
     status = db.Column(db.String(150), nullable=False)
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
     
