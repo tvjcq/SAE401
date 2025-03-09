@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <title>{{ jardin.nom }}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
   </head>
   <body>
     <h1>Jardin : {{ jardin.nom }}</h1>
@@ -21,7 +25,8 @@
         {% endif %}
       </li>
       {% endfor %}
-    </ul><div class="bottom-nav">
+    </ul>
+    <div class="bottom-nav">
       <div class="nav-item">
         <a href="{{ url_for('etage_0') }}">
           <svg
@@ -44,21 +49,21 @@
       </div>
       <div class="nav-item" id="scan">
         <a href="{{ url_for('plant_id') }}">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <rect x="2" y="2" width="20" height="20" rx="5"></rect>
-          <path d="M2 12h20"></path>
-          <path d="M12 2v20"></path>
-        </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+            <path d="M2 12h20"></path>
+            <path d="M12 2v20"></path>
+          </svg>
         </a>
       </div>
       <div class="nav-item">

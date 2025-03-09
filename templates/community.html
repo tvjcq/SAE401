@@ -30,6 +30,49 @@
           </div>
           {% endfor %}
         </div>
+        <div class="section">
+          <h2>Sondages</h2>
+          {% for poll in polls %}
+          <div class="poll">
+            <h3>{{ poll.question }}</h3>
+            {% if poll.has_voted %}
+            <p>Résultats :</p>
+            <ul>
+              {% for option in poll.options %}
+              <li>
+                {{ option.option_text }} : {% if poll.total_votes > 0 %} {{
+                "%.0f"|format((option.votes / poll.total_votes * 100)) }} % {% else
+                %} 0 % {% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <form
+              class="poll-form"
+              method="post"
+              action="{{ url_for('community_poll_vote', poll_id=poll.id) }}"
+            >
+              {% for option in poll.options %}
+              <div class="poll-option">
+                <input
+                  type="radio"
+                  id="poll_option_{{ option.id }}"
+                  name="option"
+                  value="{{ option.id }}"
+                  required
+                />
+                <label for="poll_option_{{ option.id }}"
+                  >{{ option.option_text }}</label
+                >
+              </div>
+              {% endfor %}
+              <button type="submit">Voter</button>
+            </form>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+    
 
         {% if current_user.is_admin %}
         <form method="post">
@@ -41,8 +84,12 @@
             </button>
           </div>
           <div id="extra-options" style="display: none; margin-top: 10px">
-            <button type="button" onclick="createPoll()">Créer un sondage</button>
-            <button type="button" onclick="createQuiz()">Créer un quiz</button>
+            <button type="button" onclick="window.location.href=`{{ url_for('create_poll') }}`">
+              Créer un sondage
+            </button>
+            <button type="button" onclick="window.location.href=`{{ url_for('create_quiz') }}`">
+              Créer un quiz
+            </button>
           </div>
         </form>
         {% endif %}
@@ -150,52 +197,9 @@
         </button>
       </div>
     </form>
-    {% endif %}
 
-    <div class="section">
-      <h2>Sondages</h2>
-      {% for poll in polls %}
-      <div class="poll">
-        <h3>{{ poll.question }}</h3>
-        {% if poll.has_voted %}
-        <p>Résultats :</p>
-        <ul>
-          {% for option in poll.options %}
-          <li>
-            {{ option.option_text }} : {% if poll.total_votes > 0 %} {{
-            "%.0f"|format((option.votes / poll.total_votes * 100)) }} % {% else
-            %} 0 % {% endif %}
-          </li>
-          {% endfor %}
-        </ul>
-        {% else %}
-        <form
-          class="poll-form"
-          method="post"
-          action="{{ url_for('community_poll_vote', poll_id=poll.id) }}"
-        >
-          {% for option in poll.options %}
-          <div class="poll-option">
-            <input
-              type="radio"
-              id="poll_option_{{ option.id }}"
-              name="option"
-              value="{{ option.id }}"
-              required
-            />
-            <label for="poll_option_{{ option.id }}"
-              >{{ option.option_text }}</label
-            >
-          </div>
-          {% endfor %}
-          <button type="submit">Voter</button>
-        </form>
-        {% endif %}
-      </div>
-      {% endfor %}
-    </div>
 
-    <div class="section">
+    <!-- <div class="section">
       <h2>Quizzes</h2>
       {% for quiz in quizzes %}
       <div class="quiz">
@@ -206,7 +210,7 @@
         >
       </div>
       {% endfor %}
-    </div>
+    </div> -->
     <script>
       function toggleOptions() {
         var extra = document.getElementById("extra-options");
