@@ -105,7 +105,64 @@
         </form>
         {% endif %}
       </div>
+
+      <div class="section">
+        <h2>Sondages</h2>
+        {% for poll in polls %}
+        <div class="poll">
+          <h3>{{ poll.question }}</h3>
+          {% if poll.has_voted %}
+          <p>Résultats :</p>
+          <ul>
+            {% for option in poll.options %}
+            <li>
+              {{ option.option_text }} : {% if poll.total_votes > 0 %} {{
+              "%.0f"|format((option.votes / poll.total_votes * 100)) }} % {%
+              else %} 0 % {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+          {% else %}
+          <form
+            class="poll-form"
+            method="post"
+            action="{{ url_for('community_poll_vote', poll_id=poll.id) }}"
+          >
+            {% for option in poll.options %}
+            <div class="poll-option">
+              <input
+                type="radio"
+                id="poll_option_{{ option.id }}"
+                name="option"
+                value="{{ option.id }}"
+                required
+              />
+              <label for="poll_option_{{ option.id }}"
+                >{{ option.option_text }}</label
+              >
+            </div>
+            {% endfor %}
+            <button type="submit">Voter</button>
+          </form>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="section">
+        <h2>Quizzes</h2>
+        {% for quiz in quizzes %}
+        <div class="quiz">
+          <h3>{{ quiz.title }}</h3>
+          <p>{{ quiz.description }}</p>
+          <a href="{{ url_for('quiz_intro', quiz_id=quiz.id) }}"
+            >Répondre au quiz</a
+          >
+        </div>
+        {% endfor %}
+      </div>
     </div>
+    <!-- Barre de navigation du bas -->
     <div class="bottom-nav">
       <div class="nav-item">
         <a href="{{ url_for('etage_0') }}">
@@ -120,10 +177,11 @@
             stroke-linecap="round"
             stroke-linejoin="round"
           >
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-            <path
-              d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
-            ></path>
+            <polygon
+              points="1 6 1 22 8 19 16 22 23 19 23 3 16 6 8 3 1 6"
+            ></polygon>
+            <line x1="8" y1="3" x2="8" y2="19"></line>
+            <line x1="16" y1="6" x2="16" y2="22"></line>
           </svg>
         </a>
       </div>
@@ -193,19 +251,6 @@
         </a>
       </div>
     </div>
-
-    <!-- <div class="section">
-      <h2>Quizzes</h2>
-      {% for quiz in quizzes %}
-      <div class="quiz">
-        <h3>{{ quiz.title }}</h3>
-        <p>{{ quiz.description }}</p>
-        <a href="{{ url_for('quiz_intro', quiz_id=quiz.id) }}"
-          >Répondre au quiz</a
-        >
-      </div>
-      {% endfor %}
-    </div> -->
     <script>
       function toggleOptions() {
         var extra = document.getElementById("extra-options");
