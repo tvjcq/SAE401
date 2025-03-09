@@ -195,7 +195,7 @@ body.acceuil {
 }
 
 .card-link {
-  background-color: #FFBF47;
+  background-color: #FF748B;
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
@@ -328,7 +328,6 @@ input[type="email"]::placeholder,
 input[type="password"]::placeholder {
   color: #848484;
 }
-
 .logo-container {
   display: flex;
   flex-direction: column;
@@ -340,31 +339,131 @@ input[type="password"]::placeholder {
   color: white;
 }
 
+.jardin_1, .jardin_2, .jardin_3, .jardin_4 {
+  position: absolute;
+}
+
 .jardin_1 {
-  width: 40px;
+  width: 35px;
   height: 10px;
-  position: absolute;
-  top: 32%;
-  left: 30%;
+  top: 13%; /* Utilisation de % pour la hauteur */
+  left: 25%; /* Utilisation de % pour la largeur */
 }
+
 .jardin_2 {
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  top: 35%;
-  left: 30%;
+  width: 25px;
+  height: 30px;
+  top: 29%; /* Utilisation de % pour la hauteur */
+  left: 27%; /* Utilisation de % pour la largeur */
 }
+
 .jardin_3 {
   width: 18px;
   height: 25px;
-  position: absolute;
-  top: 39%;
-  left: 75%;
+  top: 42%; /* Utilisation de % pour la hauteur */
+  left: 83%; /* Utilisation de % pour la largeur */
 }
+
 .jardin_4 {
   width: 50px;
   height: 20px;
+  top: 77%; /* Utilisation de % pour la hauteur */
+  left: 5%; /* Utilisation de % pour la largeur */
+}
+
+.validate-button {
+  background-color: #FF748B;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.validate-button:hover {
+  background-color: #FF9F00;
+}
+
+.potager-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.potager-image {
+  width: 100%;
+  height: auto;
+}
+
+.slots {
   position: absolute;
-  top: 47%;
-  left: 16%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.slot {
+  width: 30%;
+  height: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slot-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #ACB54A;
+  border-radius: 8px;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+.plus-icon {
+  font-size: 2em;
+}
+
+.legume-name {
+  font-size: 1em;
+}
+
+.message-erreur {
+  color: red;
+}
+
+.btn-retour, .btn-vote {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #f0ad4e;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.btn-retour:hover, .btn-vote:hover {
+  background-color: #ec971f;
+}
+
+.liste-legumes {
+  list-style-type: none;
+  padding: 0;
+}
+
+.liste-legumes li {
+  margin: 10px 0;
 }

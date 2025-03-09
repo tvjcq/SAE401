@@ -34,7 +34,13 @@
           </label>
         {% endfor %} 
         {% if not feedback %}
-          <button type="submit">Validate</button>
+          <button
+            type="button"
+            onclick="window.location.href=`{{ url_for('quiz_next', quiz_id=quiz.id) }}`"
+            class="validate-button"
+          >
+            Next
+          </button>
         {% else %}
           <button
             type="button"
@@ -45,6 +51,7 @@
         {% endif %}
       </form>
     </div>
+
     <!-- Barre de navigation du bas -->
     <div class="bottom-nav">
       <div class="nav-item">

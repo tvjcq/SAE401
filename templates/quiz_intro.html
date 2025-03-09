@@ -1,21 +1,51 @@
-<!-- HTML -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <title>{{ quiz.title }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
   </head>
-  <body>
-    <div class="container">
-    <h1>{{ quiz.title }}</h1>
-    <p>{{ quiz.description }}</p>
-    <a href="{{ url_for('quiz_question', quiz_id=quiz.id) }}">Start Quiz</a>
-  </div>
-  <!-- Barre de navigation du bas -->
-  <div class="bottom-nav">
-    <div class="nav-item">
-      <a href="{{ url_for('etage_0') }}">
+  <body class="accueil">
+    <div class="container accueil">
+      <div class="debut">
+        <div class="logo-container">
+          <img
+            src="{{ url_for('static', filename='src/images/logo_jaune.png') }}"
+            alt="Logo jaune"
+            class="logo"
+          />
+        </div>
+        <h1>{{ quiz.title }}</h1>
+        <p>{{ quiz.description }}</p>
+        <div class="btn-quiz">
+          <a href="{{ url_for('quiz_question', quiz_id=quiz.id) }}" class="card-link">Commencer le Quiz</a>
+        </div>
+      </div>
+    </div>
+    <!-- Barre de navigation du bas -->
+    <div class="bottom-nav">
+      <div class="nav-item">
+        <a href="{{ url_for('etage_0') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path
+              d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+            ></path>
+          </svg>
+        </a>
+      </div>
+      <div class="nav-item" id="scan">
+        <a href="{{ url_for('plant_id') }}">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -27,78 +57,58 @@
           stroke-linecap="round"
           stroke-linejoin="round"
         >
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-          <path
-            d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
-          ></path>
+          <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+          <path d="M2 12h20"></path>
+          <path d="M12 2v20"></path>
         </svg>
-      </a>
+        </a>
+      </div>
+      <div class="nav-item">
+        <a href="{{ url_for('accueil') }}">
+          <img
+            src="{{ url_for('static', filename='src/images/logo_jaune.png') }}"
+            style="height: auto; width: 30px"
+            alt="Logo jaune"
+          />
+        </a>
+      </div>
+      <div class="nav-item" id="chat">
+        <a href="{{ url_for('community') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+            ></path>
+          </svg>
+        </a>
+      </div>
+      <div class="nav-item" id="profil">
+        <a href="{{ url_for('profile') }}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </a>
+      </div>
     </div>
-    <div class="nav-item" id="scan">
-      <a href="{{ url_for('plant_id') }}">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <rect x="2" y="2" width="20" height="20" rx="5"></rect>
-        <path d="M2 12h20"></path>
-        <path d="M12 2v20"></path>
-      </svg>
-      </a>
-    </div>
-    <div class="nav-item">
-      <a href="{{ url_for('accueil') }}">
-        <img
-          src="{{ url_for('static', filename='src/images/logo_jaune.png') }}"
-          style="height: auto; width: 30px"
-          alt="Logo jaune"
-        />
-      </a>
-    </div>
-    <div class="nav-item" id="chat">
-      <a href="{{ url_for('community') }}">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path
-            d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-          ></path>
-        </svg>
-      </a>
-    </div>
-    <div class="nav-item" id="profil">
-      <a href="{{ url_for('profile') }}">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
-      </a>
-    </div>
-  </div>
   </body>
 </html>
